@@ -96,7 +96,11 @@ function MovieHistoryRow({
       <RelativeDateCell date={date} includeSeconds={true} includeTime={true} />
 
       <TableRowCell className={styles.actions}>
-        <IconButton name={icons.INFO} onPress={handleDetailsPress} />
+        <IconButton
+          name={icons.INFO}
+          title={translate('Details')}
+          onPress={handleDetailsPress}
+        />
 
         {eventType === 'grabbed' ? (
           <IconButton

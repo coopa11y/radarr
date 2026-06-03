@@ -69,6 +69,8 @@ function PageHeader({ isSmallScreen }: PageHeaderProps) {
         <IconButton
           id="sidebar-toggle-button"
           name={icons.NAVBAR_COLLAPSE}
+          aria-label="Toggle sidebar"
+          title="Toggle sidebar"
           onPress={handleSidebarToggle}
         />
       </div>

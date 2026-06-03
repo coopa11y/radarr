@@ -1,0 +1,3 @@
+*
+!_artifacts/linux-x64/net8.0/Radarr/**
+!docker/**

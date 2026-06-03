@@ -20,14 +20,18 @@ export default function IconButton({
   isSpinning,
   ...otherProps
 }: IconButtonProps) {
+  const ariaLabel = otherProps['aria-label'];
+  const { title, ...linkProps } = otherProps;
+
   return (
     <Link
+      {...linkProps}
       className={classNames(
         className,
-        otherProps.isDisabled && styles.isDisabled
+        linkProps.isDisabled && styles.isDisabled
       )}
-      aria-label={translate('TableOptionsButton')}
-      {...otherProps}
+      aria-label={ariaLabel ?? title ?? translate('TableOptionsButton')}
+      title={title}
     >
       <Icon
         className={iconClassName}
