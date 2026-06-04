@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ModalContext from './ModalContext';
 import styles from './ModalHeader.css';
 
 interface ModalHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-function ModalHeader({ children, ...otherProps }: ModalHeaderProps) {
+function ModalHeader({ children, id, ...otherProps }: ModalHeaderProps) {
+  const { titleId } = useContext(ModalContext);
+
   return (
-    <div className={styles.modalHeader} {...otherProps}>
+    <div className={styles.modalHeader} id={id ?? titleId} {...otherProps}>
       {children}
     </div>
   );
