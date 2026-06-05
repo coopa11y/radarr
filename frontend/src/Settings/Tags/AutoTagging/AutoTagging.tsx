@@ -64,6 +64,8 @@ export default function AutoTagging({
   return (
     <Card
       className={styles.autoTagging}
+      ariaLabel={`${translate('EditAutoTag')}: ${name}`}
+      title={name}
       overlayContent={true}
       onPress={onEditPress}
     >

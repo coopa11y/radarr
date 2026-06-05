@@ -1,5 +1,5 @@
 import React from 'react';
-import IconButton from 'Components/Link/IconButton';
+import Icon from 'Components/Icon';
 import Popover from 'Components/Tooltip/Popover';
 import { icons, tooltipPositions } from 'Helpers/Props';
 import { ExtraFileType } from 'MovieFile/ExtraFile';
@@ -32,7 +32,8 @@ function ExtraFileDetailsPopover(props: ExtraFileDetailsPopoverProps) {
   if (details.length) {
     return (
       <Popover
-        anchor={<IconButton name={icons.INFO} />}
+        anchor={<Icon name={icons.INFO} />}
+        ariaLabel={translate('Details')}
         title={translate('Tags')}
         body={
           <ul>

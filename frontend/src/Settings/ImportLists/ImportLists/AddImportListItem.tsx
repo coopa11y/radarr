@@ -44,7 +44,14 @@ function AddImportListItem({
 
   return (
     <div className={styles.list}>
-      <Link className={styles.underlay} onPress={handleImportListSelect} />
+      <Link
+        className={styles.underlay}
+        aria-label={translate('AddImportListImplementation', {
+          implementationName,
+        })}
+        title={implementationName}
+        onPress={handleImportListSelect}
+      />
 
       <div className={styles.overlay}>
         <div className={styles.name}>{implementationName}</div>

@@ -220,6 +220,14 @@ function InteractiveSearchRow(props: InteractiveSearchRowProps) {
         {historyGrabbedData?.date && !historyFailedData?.date ? (
           <Tooltip
             anchor={<Icon name={icons.DOWNLOADING} kind={kinds.DEFAULT} />}
+            ariaLabel={translate('GrabbedAt', {
+              date: formatDateTime(
+                historyGrabbedData.date,
+                longDateFormat,
+                timeFormat,
+                { includeSeconds: true }
+              ),
+            })}
             tooltip={translate('GrabbedAt', {
               date: formatDateTime(
                 historyGrabbedData.date,
@@ -236,6 +244,14 @@ function InteractiveSearchRow(props: InteractiveSearchRowProps) {
         {historyFailedData?.date ? (
           <Tooltip
             anchor={<Icon name={icons.DOWNLOADING} kind={kinds.DANGER} />}
+            ariaLabel={translate('FailedAt', {
+              date: formatDateTime(
+                historyFailedData.date,
+                longDateFormat,
+                timeFormat,
+                { includeSeconds: true }
+              ),
+            })}
             tooltip={translate('FailedAt', {
               date: formatDateTime(
                 historyFailedData.date,
@@ -299,6 +315,7 @@ function InteractiveSearchRow(props: InteractiveSearchRowProps) {
         {indexerFlags.length ? (
           <Popover
             anchor={<Icon name={icons.FLAG} />}
+            ariaLabel={translate('IndexerFlags')}
             title={translate('IndexerFlags')}
             body={
               <ul>
@@ -316,6 +333,7 @@ function InteractiveSearchRow(props: InteractiveSearchRowProps) {
         {rejections.length ? (
           <Popover
             anchor={<Icon name={icons.DANGER} kind={kinds.DANGER} />}
+            ariaLabel={translate('ReleaseRejected')}
             title={translate('ReleaseRejected')}
             body={
               <ul>

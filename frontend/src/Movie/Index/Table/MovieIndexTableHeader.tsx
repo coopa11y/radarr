@@ -15,6 +15,7 @@ import {
   setMovieTableOption,
 } from 'Store/Actions/movieIndexActions';
 import { CheckInputChanged } from 'typings/inputs';
+import translate from 'Utilities/String/translate';
 import MovieIndexTableOptions from './MovieIndexTableOptions';
 import styles from './MovieIndexTableHeader.css';
 
@@ -83,7 +84,10 @@ function MovieIndexTableHeader(props: MovieIndexTableHeaderProps) {
                 optionsComponent={MovieIndexTableOptions}
                 onTableOptionChange={onTableOptionChange}
               >
-                <IconButton name={icons.ADVANCED_SETTINGS} />
+                <IconButton
+                  name={icons.ADVANCED_SETTINGS}
+                  title={translate('TableOptionsButton')}
+                />
               </TableOptionsModalWrapper>
             </VirtualTableHeaderCell>
           );

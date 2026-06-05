@@ -359,6 +359,7 @@ function InteractiveImportRow(props: InteractiveImportRowProps) {
               {indexerFlags ? (
                 <Popover
                   anchor={<Icon name={icons.FLAG} />}
+                  ariaLabel={translate('IndexerFlags')}
                   title={translate('IndexerFlags')}
                   body={<IndexerFlags indexerFlags={indexerFlags} />}
                   position={tooltipPositions.LEFT}
@@ -373,6 +374,7 @@ function InteractiveImportRow(props: InteractiveImportRowProps) {
         {rejections.length ? (
           <Popover
             anchor={<Icon name={icons.DANGER} kind={kinds.DANGER} />}
+            ariaLabel={translate('ReleaseRejected')}
             title={translate('ReleaseRejected')}
             body={
               <ul>

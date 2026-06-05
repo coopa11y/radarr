@@ -113,6 +113,7 @@ function MovieCrewPoster(props: MovieCrewPosterProps) {
           <span className={styles.externalLinks}>
             <Popover
               anchor={<Icon name={icons.EXTERNAL_LINK} size={12} />}
+              ariaLabel={translate('Links')}
               title={translate('Links')}
               body={
                 <Link to={`https://www.themoviedb.org/person/${tmdbId}`}>

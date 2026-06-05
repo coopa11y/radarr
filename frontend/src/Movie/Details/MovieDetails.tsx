@@ -702,6 +702,7 @@ function MovieDetails({ movieId }: MovieDetailsProps) {
 
                   <span className={styles.year}>
                     <Popover
+                      ariaLabel={translate('ReleaseDates')}
                       anchor={
                         year > 0 ? (
                           year
@@ -738,6 +739,7 @@ function MovieDetails({ movieId }: MovieDetailsProps) {
                   <span className={styles.links}>
                     <Tooltip
                       anchor={<Icon name={icons.EXTERNAL_LINK} size={20} />}
+                      ariaLabel={translate('Links')}
                       tooltip={
                         <MovieDetailsLinks
                           tmdbId={tmdbId}
@@ -753,6 +755,7 @@ function MovieDetails({ movieId }: MovieDetailsProps) {
                     <span>
                       <Tooltip
                         anchor={<Icon name={icons.TAGS} size={20} />}
+                        ariaLabel={translate('Tags')}
                         tooltip={<MovieTags movieId={id} />}
                         position={tooltipPositions.BOTTOM}
                       />

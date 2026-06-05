@@ -66,6 +66,10 @@ function Indexer({
   return (
     <Card
       className={styles.indexer}
+      ariaLabel={translate('EditIndexerImplementation', {
+        implementationName: name,
+      })}
+      title={name}
       overlayContent={true}
       onPress={handleEditIndexerPress}
     >

@@ -47,6 +47,7 @@ function TimeleftCell(props: TimeleftCellProps) {
       <TableRowCell className={styles.timeleft}>
         <Tooltip
           anchor={<Icon name={icons.INFO} />}
+          ariaLabel={translate('Details')}
           tooltip={translate('DelayingDownloadUntil', { date, time })}
           kind={kinds.INVERSE}
           position={tooltipPositions.TOP}
@@ -69,6 +70,7 @@ function TimeleftCell(props: TimeleftCellProps) {
       <TableRowCell className={styles.timeleft}>
         <Tooltip
           anchor={<Icon name={icons.INFO} />}
+          ariaLabel={translate('Details')}
           tooltip={translate('RetryingDownloadOn', { date, time })}
           kind={kinds.INVERSE}
           position={tooltipPositions.TOP}

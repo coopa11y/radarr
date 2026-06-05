@@ -101,7 +101,12 @@ function AgendaEvent({
 
   return (
     <div className={styles.event}>
-      <Link className={styles.underlay} to={link} />
+      <Link
+        className={styles.underlay}
+        aria-label={translate('MovieDetailsGoTo', { title })}
+        title={title}
+        to={link}
+      />
 
       <div className={styles.overlay}>
         <div className={styles.date}>

@@ -143,6 +143,7 @@ function MovieIndexPoster(props: MovieIndexPosterProps) {
   }, [setIsDeleteMovieModalOpen]);
 
   const link = `/movie/${titleSlug}`;
+  const linkLabel = translate('MovieDetailsGoTo', { title });
 
   const elementStyle = {
     width: `${posterWidth}px`,
@@ -183,6 +184,7 @@ function MovieIndexPoster(props: MovieIndexPosterProps) {
           <span className={styles.externalLinks}>
             <Popover
               anchor={<Icon name={icons.EXTERNAL_LINK} size={12} />}
+              ariaLabel={translate('Links')}
               title={translate('Links')}
               body={
                 <MovieDetailsLinks
@@ -199,7 +201,13 @@ function MovieIndexPoster(props: MovieIndexPosterProps) {
           <div className={styles.deleted} title={translate('Deleted')} />
         ) : null}
 
-        <Link className={styles.link} style={elementStyle} to={link}>
+        <Link
+          className={styles.link}
+          style={elementStyle}
+          aria-label={linkLabel}
+          title={title}
+          to={link}
+        >
           <MoviePoster
             style={elementStyle}
             images={images}

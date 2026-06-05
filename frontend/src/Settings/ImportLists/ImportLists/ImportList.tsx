@@ -69,6 +69,10 @@ function ImportList({
   return (
     <Card
       className={styles.list}
+      ariaLabel={translate('EditImportListImplementation', {
+        implementationName: name,
+      })}
+      title={name}
       overlayContent={true}
       onPress={handleEditImportListPress}
     >

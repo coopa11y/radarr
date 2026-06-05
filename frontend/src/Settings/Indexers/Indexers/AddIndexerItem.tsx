@@ -42,7 +42,14 @@ function AddIndexerItem({
 
   return (
     <div className={styles.indexer}>
-      <Link className={styles.underlay} onPress={handleIndexerSelect} />
+      <Link
+        className={styles.underlay}
+        aria-label={translate('AddIndexerImplementation', {
+          implementationName,
+        })}
+        title={implementationName}
+        onPress={handleIndexerSelect}
+      />
 
       <div className={styles.overlay}>
         <div className={styles.name}>{implementationName}</div>

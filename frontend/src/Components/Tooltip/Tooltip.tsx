@@ -12,9 +12,12 @@ import { kinds, tooltipPositions } from 'Helpers/Props';
 import { Kind } from 'Helpers/Props/kinds';
 import dimensions from 'Styles/Variables/dimensions';
 import { isMobile as isMobileUtil } from 'Utilities/browser';
+import * as keyCodes from 'Utilities/Constants/keyCodes';
+import getUniqueElementId from 'Utilities/getUniqueElementId';
 import styles from './Tooltip.css';
 
 export interface TooltipProps {
+  ariaLabel?: string;
   className?: string;
   bodyClassName?: string;
   anchor: React.ReactNode;
@@ -25,6 +28,7 @@ export interface TooltipProps {
 }
 function Tooltip(props: TooltipProps) {
   const {
+    ariaLabel,
     className,
     bodyClassName = styles.body,
     anchor,
@@ -36,6 +40,7 @@ function Tooltip(props: TooltipProps) {
 
   const closeTimeout = useRef<ReturnType<typeof setTimeout>>();
   const updater = useRef<(() => void) | null>(null);
+  const tooltipId = useMemo(() => getUniqueElementId(), []);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = useCallback(() => {
@@ -80,6 +85,29 @@ function Tooltip(props: TooltipProps) {
       setIsOpen(false);
     }, 100);
   }, [setIsOpen]);
+
+  const handleFocus = useCallback(() => {
+    if (closeTimeout.current) {
+      clearTimeout(closeTimeout.current);
+    }
+
+    setIsOpen(true);
+  }, [setIsOpen]);
+
+  const handleBlur = useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
+
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLSpanElement>) => {
+      if (event.keyCode === keyCodes.ESCAPE) {
+        event.preventDefault();
+        event.stopPropagation();
+        setIsOpen(false);
+      }
+    },
+    [setIsOpen]
+  );
 
   const maxWidth = useMemo(() => {
     const windowWidth = window.innerWidth;
@@ -141,7 +169,13 @@ function Tooltip(props: TooltipProps) {
           <span
             ref={ref}
             className={className}
+            tabIndex={0}
+            aria-label={ariaLabel}
+            aria-describedby={isOpen ? tooltipId : undefined}
             onClick={handleClick}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
             onMouseEnter={handleMouseEnterAnchor}
             onMouseLeave={handleMouseLeave}
           >
@@ -210,7 +244,11 @@ function Tooltip(props: TooltipProps) {
                   style={arrowProps.style}
                 />
                 {isOpen ? (
-                  <div className={classNames(styles.tooltip, styles[kind])}>
+                  <div
+                    id={tooltipId}
+                    role="tooltip"
+                    className={classNames(styles.tooltip, styles[kind])}
+                  >
                     <div className={bodyClassName}>{tooltip}</div>
                   </div>
                 ) : null}

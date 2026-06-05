@@ -120,7 +120,12 @@ function CalendarEvent({
         fullColorEvents && 'fullColor'
       )}
     >
-      <Link className={styles.underlay} to={link} />
+      <Link
+        className={styles.underlay}
+        aria-label={translate('MovieDetailsGoTo', { title })}
+        title={title}
+        to={link}
+      />
 
       <div className={styles.overlay}>
         <div className={styles.info}>
