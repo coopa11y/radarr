@@ -32,6 +32,12 @@ function VirtualTableHeaderCell({
     sortDirection === sortDirections.ASCENDING
       ? icons.SORT_ASCENDING
       : icons.SORT_DESCENDING;
+  let ariaSort: 'ascending' | 'descending' | 'none' = 'none';
+
+  if (isSorting) {
+    ariaSort =
+      sortDirection === sortDirections.ASCENDING ? 'ascending' : 'descending';
+  }
 
   const handlePress = useCallback(() => {
     if (fixedSortDirection) {
@@ -41,10 +47,24 @@ function VirtualTableHeaderCell({
     }
   }, [name, fixedSortDirection, onSortPress]);
 
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        handlePress();
+      }
+    },
+    [handlePress]
+  );
+
   return isSortable ? (
     <Link
       component="div"
       className={className}
+      role="columnheader"
+      tabIndex={0}
+      aria-sort={ariaSort}
+      onKeyDown={handleKeyDown}
       onPress={handlePress}
       {...otherProps}
     >

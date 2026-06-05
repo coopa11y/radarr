@@ -5,7 +5,8 @@ import { icons, sortDirections } from 'Helpers/Props';
 import { SortDirection } from 'Helpers/Props/sortDirections';
 import styles from './TableHeaderCell.css';
 
-interface TableHeaderCellProps {
+interface TableHeaderCellProps
+  extends React.ThHTMLAttributes<HTMLTableHeaderCellElement> {
   className?: string;
   name: string;
   label?: string | (() => string) | React.ReactNode;
@@ -40,6 +41,12 @@ function TableHeaderCell({
     sortDirection === sortDirections.ASCENDING
       ? icons.SORT_ASCENDING
       : icons.SORT_DESCENDING;
+  let ariaSort: 'ascending' | 'descending' | 'none' = 'none';
+
+  if (isSorting) {
+    ariaSort =
+      sortDirection === sortDirections.ASCENDING ? 'ascending' : 'descending';
+  }
 
   const handlePress = useCallback(() => {
     if (fixedSortDirection) {
@@ -49,13 +56,26 @@ function TableHeaderCell({
     }
   }, [name, fixedSortDirection, onSortPress]);
 
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLTableHeaderCellElement>) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        handlePress();
+      }
+    },
+    [handlePress]
+  );
+
   return isSortable ? (
     <Link
       {...otherProps}
       component="th"
       className={className}
+      tabIndex={0}
+      aria-sort={ariaSort}
       // label={typeof label === 'function' ? label() : label}
       title={typeof columnLabel === 'function' ? columnLabel() : columnLabel}
+      onKeyDown={handleKeyDown}
       onPress={handlePress}
     >
       {children}
