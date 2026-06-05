@@ -17,7 +17,7 @@ export interface OnScroll {
   scrollTop: number;
 }
 
-interface ScrollerProps {
+interface ScrollerProps extends Omit<ComponentProps<'div'>, 'onScroll'> {
   className?: string;
   scrollDirection?: ScrollDirection;
   autoFocus?: boolean;

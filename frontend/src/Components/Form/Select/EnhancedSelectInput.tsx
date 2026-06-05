@@ -24,6 +24,7 @@ import { EnhancedSelectInputChanged, InputChanged } from 'typings/inputs';
 import { isMobile as isMobileUtil } from 'Utilities/browser';
 import * as keyCodes from 'Utilities/Constants/keyCodes';
 import getUniqueElementId from 'Utilities/getUniqueElementId';
+import translate from 'Utilities/String/translate';
 import TextInput from '../TextInput';
 import HintedSelectInputOption from './HintedSelectInputOption';
 import HintedSelectInputSelectedValue from './HintedSelectInputSelectedValue';
@@ -166,6 +167,8 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
   const updater = useRef<(() => void) | null>(null);
   const buttonId = useMemo(() => getUniqueElementId(), []);
   const optionsId = useMemo(() => getUniqueElementId(), []);
+  const desktopListboxId = useMemo(() => `${optionsId}-desktop`, [optionsId]);
+  const mobileListboxId = useMemo(() => `${optionsId}-mobile`, [optionsId]);
   const [selectedIndex, setSelectedIndex] = useState(
     getSelectedIndex(value, values)
   );
@@ -174,6 +177,11 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
 
   const isMultiSelect = Array.isArray(value);
   const selectedOption = getSelectedOption(selectedIndex, values);
+  const listboxId = isMobile ? mobileListboxId : desktopListboxId;
+  const activeDescendantId =
+    selectedIndex == null || selectedIndex < 0
+      ? undefined
+      : `${listboxId}-${selectedIndex}`;
 
   const selectedValue = useMemo(() => {
     if (values.length) {
@@ -341,15 +349,21 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
         nextSelectedIndex = nextIndex(selectedIndex, values);
       }
 
-      if (keyCode === keyCodes.ENTER) {
+      if (keyCode === keyCodes.ENTER || event.key === ' ') {
         event.preventDefault();
         nextIsOpen = false;
-        handleSelect(values[selectedIndex].key);
+
+        if (selectedIndex != null && selectedIndex > -1) {
+          handleSelect(values[selectedIndex].key);
+        }
       }
 
       if (keyCode === keyCodes.TAB) {
         nextIsOpen = false;
-        handleSelect(values[selectedIndex].key);
+
+        if (selectedIndex != null && selectedIndex > -1) {
+          handleSelect(values[selectedIndex].key);
+        }
       }
 
       if (keyCode === keyCodes.ESCAPE) {
@@ -453,6 +467,13 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
                       isDisabled && disabledClassName
                     )}
                     isDisabled={isDisabled}
+                    role="combobox"
+                    aria-haspopup="listbox"
+                    aria-expanded={isOpen}
+                    aria-controls={listboxId}
+                    aria-activedescendant={
+                      isOpen ? activeDescendantId : undefined
+                    }
                     onBlur={handleBlur}
                     onKeyDown={handleKeyDown}
                     onPress={handlePress}
@@ -519,7 +540,10 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
                 >
                   {isOpen && !isMobile ? (
                     <Scroller
+                      id={desktopListboxId}
                       className={styles.options}
+                      role="listbox"
+                      aria-multiselectable={isMultiSelect ? true : undefined}
                       style={{
                         maxHeight: style.maxHeight,
                       }}
@@ -538,6 +562,7 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
                           <OptionComponent
                             key={v.key}
                             id={v.key}
+                            optionId={`${desktopListboxId}-${index}`}
                             depth={depth}
                             isSelected={isSelectedItem(index, value, values)}
                             isDisabled={parentSelected}
@@ -572,10 +597,17 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
             innerClassName={styles.optionsInnerModalBody}
             scrollDirection="none"
           >
-            <Scroller className={styles.optionsModalScroller}>
+            <Scroller
+              id={mobileListboxId}
+              className={styles.optionsModalScroller}
+              role="listbox"
+              aria-multiselectable={isMultiSelect ? true : undefined}
+            >
               <div className={styles.mobileCloseButtonContainer}>
                 <Link
                   className={styles.mobileCloseButton}
+                  aria-label={translate('Close')}
+                  title={translate('Close')}
                   onPress={handleOptionsModalClose}
                 >
                   <Icon name={icons.CLOSE} size={18} />
@@ -596,6 +628,7 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
                   <OptionComponent
                     key={key}
                     id={key}
+                    optionId={`${mobileListboxId}-${index}`}
                     depth={depth}
                     isSelected={isSelectedItem(index, value, values)}
                     isMultiSelect={isMultiSelect}
