@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -34,6 +36,11 @@ jobs:
 
       - name: Enable Corepack
         run: corepack enable
+
+      - name: Set Radarr version metadata
+        run: |
+          echo "RADARRVERSION=$(git describe --tags --abbrev=0 | sed 's/^v//')" >> "$GITHUB_ENV"
+          echo "BUILD_SOURCEBRANCHNAME=master" >> "$GITHUB_ENV"
 
       - name: Build Radarr package
         run: ./build.sh --backend --frontend --packages --framework net8.0 --runtime linux-x64
@@ -63,6 +70,9 @@ jobs:
         with:
           context: .
           file: docker/radarr-a11y.Dockerfile
+          build-args: |
+            RADARRVERSION=${{ env.RADARRVERSION }}
+            RADARRBRANCH=master
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
