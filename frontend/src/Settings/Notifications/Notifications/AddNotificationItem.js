@@ -42,13 +42,21 @@ class AddNotificationItem extends Component {
       >
         <Link
           className={styles.underlay}
+          tabIndex={-1}
+          aria-hidden={true}
           onPress={this.onNotificationSelect}
         />
 
         <div className={styles.overlay}>
-          <div className={styles.name}>
+          <Link
+            className={styles.name}
+            aria-label={translate('AddConnectionImplementation', {
+              implementationName
+            })}
+            onPress={this.onNotificationSelect}
+          >
             {implementationName}
-          </div>
+          </Link>
 
           <div className={styles.actions}>
             {

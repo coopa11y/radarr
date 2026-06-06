@@ -87,6 +87,9 @@ class CollectionMovie extends Component {
       isNewAddMovieModalOpen
     } = this.state;
 
+    const actionLabel = id ?
+      translate('MovieDetailsGoTo', { title }) :
+      `${translate('AddMovie')}: ${title}`;
     const linkProps = id ? { to: `/movie/${tmdbId}` } : { onPress: this.onAddMoviePress };
 
     const elementStyle = {
@@ -122,6 +125,8 @@ class CollectionMovie extends Component {
           <Link
             className={styles.link}
             style={elementStyle}
+            aria-label={actionLabel}
+            title={title}
             {...linkProps}
           >
             <MoviePoster

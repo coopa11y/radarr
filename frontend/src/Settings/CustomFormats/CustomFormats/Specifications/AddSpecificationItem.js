@@ -42,13 +42,21 @@ class AddSpecificationItem extends Component {
       >
         <Link
           className={styles.underlay}
+          tabIndex={-1}
+          aria-hidden={true}
           onPress={this.onSpecificationSelect}
         />
 
         <div className={styles.overlay}>
-          <div className={styles.name}>
+          <Link
+            className={styles.name}
+            aria-label={translate('AddConditionImplementation', {
+              implementationName
+            })}
+            onPress={this.onSpecificationSelect}
+          >
             {implementationName}
-          </div>
+          </Link>
 
           <div className={styles.actions}>
             {

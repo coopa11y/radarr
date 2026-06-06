@@ -194,6 +194,7 @@ function AddNewMovieCollectionMovieModalContent({
                   {translate('MinimumAvailability')}
 
                   <Popover
+                    ariaLabel={translate('MinimumAvailability')}
                     anchor={
                       <Icon className={styles.labelIcon} name={icons.INFO} />
                     }
@@ -239,7 +240,7 @@ function AddNewMovieCollectionMovieModalContent({
       </ModalBody>
 
       <ModalFooter className={styles.modalFooter}>
-        <label className={styles.searchForMissingMovieLabelContainer}>
+        <div className={styles.searchForMissingMovieLabelContainer}>
           <span className={styles.searchForMissingMovieLabel}>
             {translate('StartSearchForMissingMovie')}
           </span>
@@ -248,10 +249,11 @@ function AddNewMovieCollectionMovieModalContent({
             containerClassName={styles.searchForMissingMovieContainer}
             className={styles.searchForMissingMovieInput}
             name="searchForMovie"
+            ariaLabel={translate('StartSearchForMissingMovie')}
             {...searchForMovie}
             onChange={handleInputChange}
           />
-        </label>
+        </div>
 
         <SpinnerButton
           className={styles.addButton}

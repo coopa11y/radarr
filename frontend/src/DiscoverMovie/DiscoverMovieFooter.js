@@ -207,6 +207,7 @@ class DiscoverMovieFooter extends Component {
 
           <CheckInput
             name="searchForMovie"
+            ariaLabel={translate('SearchOnAdd')}
             isDisabled={!selectedCount}
             value={searchForMovie}
             onChange={onInputChange}

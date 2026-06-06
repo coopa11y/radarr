@@ -46,6 +46,8 @@ function AddImportListItem({
     <div className={styles.list}>
       <Link
         className={styles.underlay}
+        tabIndex={-1}
+        aria-hidden={true}
         aria-label={translate('AddImportListImplementation', {
           implementationName,
         })}
@@ -54,7 +56,15 @@ function AddImportListItem({
       />
 
       <div className={styles.overlay}>
-        <div className={styles.name}>{implementationName}</div>
+        <Link
+          className={styles.name}
+          aria-label={translate('AddImportListImplementation', {
+            implementationName,
+          })}
+          onPress={handleImportListSelect}
+        >
+          {implementationName}
+        </Link>
 
         <div className={styles.actions}>
           {hasPresets && (

@@ -134,6 +134,7 @@ class CollectionOverview extends Component {
             <CheckInput
               className={styles.checkInput}
               name={id.toString()}
+              ariaLabel={title}
               value={isSelected}
               onChange={this.onChange}
             />

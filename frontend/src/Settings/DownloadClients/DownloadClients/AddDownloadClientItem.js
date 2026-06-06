@@ -42,13 +42,21 @@ class AddDownloadClientItem extends Component {
       >
         <Link
           className={styles.underlay}
+          tabIndex={-1}
+          aria-hidden={true}
           onPress={this.onDownloadClientSelect}
         />
 
         <div className={styles.overlay}>
-          <div className={styles.name}>
+          <Link
+            className={styles.name}
+            aria-label={translate('AddDownloadClientImplementation', {
+              implementationName
+            })}
+            onPress={this.onDownloadClientSelect}
+          >
             {implementationName}
-          </div>
+          </Link>
 
           <div className={styles.actions}>
             {

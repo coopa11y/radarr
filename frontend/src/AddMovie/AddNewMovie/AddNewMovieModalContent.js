@@ -124,6 +124,7 @@ class AddNewMovieModalContent extends Component {
                     {translate('MinimumAvailability')}
 
                     <Popover
+                      ariaLabel={translate('MinimumAvailability')}
                       anchor={
                         <Icon
                           className={styles.labelIcon}
@@ -172,7 +173,7 @@ class AddNewMovieModalContent extends Component {
         </ModalBody>
 
         <ModalFooter className={styles.modalFooter}>
-          <label className={styles.searchForMissingMovieLabelContainer}>
+          <div className={styles.searchForMissingMovieLabelContainer}>
             <span className={styles.searchForMissingMovieLabel}>
               {translate('StartSearchForMissingMovie')}
             </span>
@@ -181,10 +182,11 @@ class AddNewMovieModalContent extends Component {
               containerClassName={styles.searchForMissingMovieContainer}
               className={styles.searchForMissingMovieInput}
               name="searchForMovie"
+              ariaLabel={translate('StartSearchForMissingMovie')}
               onChange={onInputChange}
               {...searchForMovie}
             />
-          </label>
+          </div>
 
           <SpinnerButton
             className={styles.addButton}

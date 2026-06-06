@@ -111,6 +111,9 @@ class DiscoverMoviePoster extends Component {
       isExcludeMovieModalOpen
     } = this.state;
 
+    const actionLabel = isExisting ?
+      translate('MovieDetailsGoTo', { title }) :
+      `${translate('AddMovie')}: ${title}`;
     const linkProps = isExisting ? { to: `/movie/${tmdbId}` } : { onPress: this.onPress };
 
     const elementStyle = {
@@ -126,6 +129,7 @@ class DiscoverMoviePoster extends Component {
               <CheckInput
                 className={styles.checkInput}
                 name={tmdbId.toString()}
+                ariaLabel={title}
                 value={isSelected}
                 onChange={this.onChange}
               />
@@ -142,6 +146,7 @@ class DiscoverMoviePoster extends Component {
             />
             <span className={styles.externalLinks}>
               <Popover
+                ariaLabel={translate('Links')}
                 anchor={
                   <Icon
                     name={icons.EXTERNAL_LINK}
@@ -179,6 +184,8 @@ class DiscoverMoviePoster extends Component {
           <Link
             className={styles.link}
             style={elementStyle}
+            aria-label={actionLabel}
+            title={title}
             {...linkProps}
           >
             <MoviePoster
@@ -202,9 +209,14 @@ class DiscoverMoviePoster extends Component {
         </div>
 
         {showTitle ?
-          <div className={styles.title} title={title}>
+          <Link
+            className={styles.title}
+            aria-label={actionLabel}
+            title={title}
+            {...linkProps}
+          >
             {title}
-          </div> :
+          </Link> :
           null}
 
         {showTmdbRating && !!ratings.tmdb ? (

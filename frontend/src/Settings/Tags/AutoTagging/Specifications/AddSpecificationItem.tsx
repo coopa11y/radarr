@@ -38,6 +38,8 @@ export default function AddSpecificationItem({
     <div className={styles.specification}>
       <Link
         className={styles.underlay}
+        tabIndex={-1}
+        aria-hidden={true}
         aria-label={translate('AddConditionImplementation', {
           implementationName,
         })}
@@ -46,7 +48,15 @@ export default function AddSpecificationItem({
       />
 
       <div className={styles.overlay}>
-        <div className={styles.name}>{implementationName}</div>
+        <Link
+          className={styles.name}
+          aria-label={translate('AddConditionImplementation', {
+            implementationName,
+          })}
+          onPress={handleSpecificationSelect}
+        >
+          {implementationName}
+        </Link>
 
         <div className={styles.actions}>
           {hasPresets ? (

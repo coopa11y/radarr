@@ -114,6 +114,9 @@ class DiscoverMovieOverview extends Component {
       height: `${posterHeight}px`
     };
 
+    const actionLabel = isExisting ?
+      translate('MovieDetailsGoTo', { title }) :
+      `${translate('AddMovie')}: ${title}`;
     const linkProps = isExisting ? { to: `/movie/${tmdbId}` } : { onPress: this.onPress };
 
     const contentHeight = getContentHeight(rowHeight, isSmallScreen);
@@ -128,6 +131,7 @@ class DiscoverMovieOverview extends Component {
                 <CheckInput
                   className={styles.checkInput}
                   name={tmdbId.toString()}
+                  ariaLabel={title}
                   value={isSelected}
                   onChange={this.onChange}
                 />
@@ -136,6 +140,8 @@ class DiscoverMovieOverview extends Component {
               <Link
                 className={styles.link}
                 style={elementStyle}
+                aria-label={actionLabel}
+                title={title}
                 {...linkProps}
               >
                 <MoviePoster
@@ -154,6 +160,7 @@ class DiscoverMovieOverview extends Component {
             <div className={styles.titleRow}>
               <Link
                 className={styles.title}
+                aria-label={actionLabel}
                 {...linkProps}
               >
                 {title}
@@ -181,6 +188,7 @@ class DiscoverMovieOverview extends Component {
               <div className={styles.actions}>
                 <span className={styles.externalLinks}>
                   <Popover
+                    ariaLabel={translate('Links')}
                     anchor={
                       <Icon
                         name={icons.EXTERNAL_LINK}

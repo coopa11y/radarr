@@ -97,6 +97,9 @@ class DiscoverMovieRow extends Component {
       isExcludeMovieModalOpen
     } = this.state;
 
+    const actionLabel = isExisting ?
+      translate('MovieDetailsGoTo', { title }) :
+      `${translate('AddMovie')}: ${title}`;
     const linkProps = isExisting ? { to: `/movie/${tmdbId}` } : { onPress: this.onAddMoviePress };
 
     return (
@@ -141,6 +144,7 @@ class DiscoverMovieRow extends Component {
                   className={styles[name]}
                 >
                   <Link
+                    aria-label={actionLabel}
                     {...linkProps}
                   >
                     {title}
@@ -411,6 +415,7 @@ class DiscoverMovieRow extends Component {
                 >
                   <span className={styles.externalLinks}>
                     <Popover
+                      ariaLabel={translate('Links')}
                       anchor={
                         <Icon
                           name={icons.EXTERNAL_LINK}
