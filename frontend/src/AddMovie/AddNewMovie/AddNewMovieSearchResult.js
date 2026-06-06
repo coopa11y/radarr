@@ -88,6 +88,9 @@ class AddNewMovieSearchResult extends Component {
 
     const hasMovieFile = !!movieFile;
 
+    const actionLabel = isExistingMovie ?
+      translate('MovieDetailsGoTo', { title }) :
+      `${translate('AddMovie')}: ${title}`;
     const linkProps = isExistingMovie ? { to: `/movie/${titleSlug}` } : { onPress: this.onPress };
     const posterWidth = 167;
     const posterHeight = 250;
@@ -101,6 +104,8 @@ class AddNewMovieSearchResult extends Component {
       <div className={styles.searchResult}>
         <Link
           className={styles.underlay}
+          tabIndex={-1}
+          aria-hidden={true}
           {...linkProps}
         />
 
@@ -139,7 +144,11 @@ class AddNewMovieSearchResult extends Component {
           <div className={styles.content}>
             <div className={styles.titleRow}>
               <div className={styles.titleContainer}>
-                <div className={styles.title}>
+                <Link
+                  className={styles.title}
+                  aria-label={actionLabel}
+                  {...linkProps}
+                >
                   {title}
 
                   {
@@ -149,7 +158,7 @@ class AddNewMovieSearchResult extends Component {
                       </span> :
                       null
                   }
-                </div>
+                </Link>
               </div>
 
               <div className={styles.icons}>
@@ -253,6 +262,7 @@ class AddNewMovieSearchResult extends Component {
               }
 
               <Tooltip
+                ariaLabel={translate('Links')}
                 anchor={
                   <Label
                     size={sizes.LARGE}
