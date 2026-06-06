@@ -124,8 +124,12 @@ export interface EnhancedSelectInputProps<
 > {
   className?: string;
   disabledClassName?: string;
+  id?: string;
   name: string;
   value: V;
+  ariaLabel?: string;
+  ariaDescribedBy?: string;
+  title?: string;
   values: T[];
   isDisabled?: boolean;
   isFetching?: boolean;
@@ -146,8 +150,12 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
   const {
     className = styles.enhancedSelect,
     disabledClassName = styles.isDisabled,
+    id,
     name,
     value,
+    ariaLabel,
+    ariaDescribedBy,
+    title,
     values,
     isDisabled = false,
     isEditable,
@@ -166,6 +174,7 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
   const [measureRef, { width }] = useMeasure();
   const updater = useRef<(() => void) | null>(null);
   const buttonId = useMemo(() => getUniqueElementId(), []);
+  const inputId = id ?? buttonId;
   const optionsId = useMemo(() => getUniqueElementId(), []);
   const desktopListboxId = useMemo(() => `${optionsId}-desktop`, [optionsId]);
   const mobileListboxId = useMemo(() => `${optionsId}-mobile`, [optionsId]);
@@ -208,7 +217,7 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
 
   const handleWindowClick = useCallback(
     (event: MouseEvent) => {
-      const button = document.getElementById(buttonId);
+      const button = document.getElementById(inputId);
       const options = document.getElementById(optionsId);
       const eventTarget = event.target as HTMLElement;
 
@@ -226,7 +235,7 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
         window.removeEventListener('click', handleWindowClick);
       }
     },
-    [isMobile, isOpen, buttonId, optionsId, setIsOpen]
+    [isMobile, isOpen, inputId, optionsId, setIsOpen]
   );
 
   const addListener = useCallback(() => {
@@ -430,9 +439,13 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
                   <div className={styles.editableContainer}>
                     <TextInput
                       className={className}
+                      id={inputId}
                       name={name}
                       value={value}
                       readOnly={isDisabled}
+                      ariaLabel={ariaLabel}
+                      ariaDescribedBy={ariaDescribedBy}
+                      title={title}
                       hasError={hasError}
                       hasWarning={hasWarning}
                       onFocus={handleFocus}
@@ -460,6 +473,7 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
                   </div>
                 ) : (
                   <Link
+                    id={inputId}
                     className={classNames(
                       className,
                       hasError && styles.hasError,
@@ -467,7 +481,10 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
                       isDisabled && disabledClassName
                     )}
                     isDisabled={isDisabled}
+                    title={title}
                     role="combobox"
+                    aria-label={ariaLabel}
+                    aria-describedby={ariaDescribedBy}
                     aria-haspopup="listbox"
                     aria-expanded={isOpen}
                     aria-controls={listboxId}

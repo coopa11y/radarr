@@ -13,14 +13,18 @@ interface ChangeEvent<T = Element> extends SyntheticEvent<T, MouseEvent> {
 
 export interface CheckInputProps {
   ariaLabel?: string;
+  ariaDescribedBy?: string;
   className?: string;
   containerClassName?: string;
+  id?: string;
   name: string;
   checkedValue?: boolean;
   uncheckedValue?: boolean;
   value?: string | boolean | null;
   helpText?: string;
+  helpTextId?: string;
   helpTextWarning?: string;
+  helpTextWarningId?: string;
   isDisabled?: boolean;
   kind?: Extract<Kind, keyof typeof styles>;
   onChange: (changes: CheckInputChanged) => void;
@@ -29,14 +33,18 @@ export interface CheckInputProps {
 function CheckInput(props: CheckInputProps) {
   const {
     ariaLabel,
+    ariaDescribedBy,
     className = styles.input,
     containerClassName = styles.container,
+    id,
     name,
     value,
     checkedValue = true,
     uncheckedValue = false,
     helpText,
+    helpTextId,
     helpTextWarning,
+    helpTextWarningId,
     isDisabled,
     kind = 'primary',
     onChange,
@@ -108,8 +116,10 @@ function CheckInput(props: CheckInputProps) {
           ref={inputRef}
           className={styles.checkbox}
           type="checkbox"
+          id={id ?? name}
           name={name}
           aria-label={ariaLabel ?? name}
+          aria-describedby={ariaDescribedBy}
           aria-checked={isIndeterminate ? 'mixed' : isChecked}
           checked={isChecked}
           disabled={isDisabled}
@@ -130,11 +140,16 @@ function CheckInput(props: CheckInputProps) {
         </div>
 
         {helpText ? (
-          <FormInputHelpText className={styles.helpText} text={helpText} />
+          <FormInputHelpText
+            id={helpTextId}
+            className={styles.helpText}
+            text={helpText}
+          />
         ) : null}
 
         {!helpText && helpTextWarning ? (
           <FormInputHelpText
+            id={helpTextWarningId}
             className={styles.helpText}
             text={helpTextWarning}
             isWarning={true}

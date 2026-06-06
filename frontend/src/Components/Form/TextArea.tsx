@@ -14,8 +14,12 @@ export interface TextAreaProps {
   readOnly?: boolean;
   autoFocus?: boolean;
   placeholder?: string;
+  id?: string;
   name: string;
   value?: string;
+  ariaLabel?: string;
+  ariaDescribedBy?: string;
+  title?: string;
   hasError?: boolean;
   hasWarning?: boolean;
   onChange: (change: InputChanged<string>) => void;
@@ -29,8 +33,12 @@ function TextArea({
   readOnly = false,
   autoFocus = false,
   placeholder,
+  id,
   name,
   value = '',
+  ariaLabel,
+  ariaDescribedBy,
+  title,
   hasError,
   hasWarning,
   onBlur,
@@ -122,6 +130,7 @@ function TextArea({
       readOnly={readOnly}
       autoFocus={autoFocus}
       placeholder={placeholder}
+      id={id ?? name}
       className={classNames(
         className,
         readOnly && styles.readOnly,
@@ -130,6 +139,9 @@ function TextArea({
       )}
       name={name}
       value={value}
+      aria-label={ariaLabel}
+      aria-describedby={ariaDescribedBy}
+      title={title}
       onChange={handleChange}
       onFocus={handleFocus}
       onBlur={onBlur}
