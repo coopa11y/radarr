@@ -478,6 +478,8 @@ function NamingModal(props: NamingModalProps) {
           <TextInput
             name={name}
             value={value}
+            ariaLabel="Movie naming format"
+            title="Movie naming format"
             onChange={onInputChange}
             onSelectionChange={handleInputSelectionChange}
           />

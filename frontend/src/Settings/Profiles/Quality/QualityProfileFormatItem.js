@@ -24,6 +24,7 @@ class QualityProfileFormatItem extends Component {
       name,
       score
     } = this.props;
+    const scoreLabel = `${name} custom format score. Increase to make this format more preferred; decrease to make it less preferred.`;
 
     return (
       <div
@@ -43,6 +44,8 @@ class QualityProfileFormatItem extends Component {
               className={styles.scoreInput}
               name={name}
               value={score}
+              ariaLabel={scoreLabel}
+              title={scoreLabel}
               onChange={this.onScoreChange}
             />
           </label>

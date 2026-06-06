@@ -40,6 +40,31 @@ function getSliderValue(value, defaultValue) {
   return roundNumber(sliderValue);
 }
 
+function getSliderSizeValueText(value, index) {
+  const isPreferredUnlimited = index === 1 && value === (slider.max - 3);
+  const isMaxUnlimited = index === 2 && value === slider.max;
+
+  if (isPreferredUnlimited || isMaxUnlimited) {
+    return translate('Unlimited');
+  }
+
+  return `${roundNumber(Math.pow(value, 1.1))} MB per minute`;
+}
+
+function getSizeLimitValueText(state) {
+  const valueText = getSliderSizeValueText(state.valueNow, state.index);
+
+  if (state.index === 0) {
+    return `${valueText}. Increase to reject smaller files; decrease to allow smaller files.`;
+  }
+
+  if (state.index === 1) {
+    return `${valueText}. Increase to prefer larger files before the maximum limit; decrease to prefer smaller files sooner.`;
+  }
+
+  return `${valueText}. Increase to allow larger files; decrease to reject files above a lower maximum.`;
+}
+
 class QualityDefinition extends Component {
 
   //
@@ -72,6 +97,7 @@ class QualityDefinition extends Component {
       <div
         {...props}
         className={styles.thumb}
+        title={props['aria-label']}
       />
     );
   }
@@ -125,7 +151,7 @@ class QualityDefinition extends Component {
     const preferredSize = value === (MAX - 3) ? null : getValue(value);
 
     this.setState({
-      sliderPreferredSize: getSliderValue(preferredSize, slider.preferred)
+      sliderPreferredSize: getSliderValue(preferredSize, (slider.max - 3))
     });
 
     this.props.onSizeChange({
@@ -179,6 +205,12 @@ class QualityDefinition extends Component {
     const maxBytes = maxSize && maxSize * 1024 * 1024;
     const maxSixty = maxBytes ? `${formatBytes(maxBytes * 60)}/${translate('HourShorthand')}` : translate('Unlimited');
 
+    const qualityName = quality.name;
+    const titleLabel = `${qualityName} custom quality title`;
+    const minSizeLabel = `${qualityName} minimum size limit in MB per minute. Increase to reject smaller files; decrease to allow smaller files.`;
+    const preferredSizeLabel = `${qualityName} preferred size target in MB per minute. Increase to prefer larger files before the maximum limit; decrease to prefer smaller files sooner.`;
+    const maxSizeLabel = `${qualityName} maximum size limit in MB per minute. Increase to allow larger files; decrease to reject files above a lower maximum.`;
+
     return (
       <div className={styles.qualityDefinition}>
         <div className={styles.quality}>
@@ -189,6 +221,8 @@ class QualityDefinition extends Component {
           <TextInput
             name={`${id}.${title}`}
             value={title}
+            ariaLabel={titleLabel}
+            title={titleLabel}
             onChange={onTitleChange}
           />
         </div>
@@ -205,6 +239,12 @@ class QualityDefinition extends Component {
             allowCross={false}
             snapDragDisabled={true}
             pearling={true}
+            ariaLabel={[
+              minSizeLabel,
+              preferredSizeLabel,
+              maxSizeLabel
+            ]}
+            ariaValuetext={getSizeLimitValueText}
             renderThumb={this.thumbRenderer}
             renderTrack={this.trackRenderer}
             onChange={this.onSliderChange}
@@ -276,6 +316,8 @@ class QualityDefinition extends Component {
                   max={preferredSize ? preferredSize - MIN_DISTANCE : MAX - MIN_DISTANCE}
                   step={0.1}
                   isFloat={true}
+                  ariaLabel={minSizeLabel}
+                  title={minSizeLabel}
                   onChange={this.onMinSizeChange}
                 />
               </div>
@@ -285,12 +327,14 @@ class QualityDefinition extends Component {
 
                 <NumberInput
                   className={styles.sizeInput}
-                  name={`${id}.min`}
+                  name={`${id}.preferred`}
                   value={preferredSize || MAX - MIN_DISTANCE}
                   min={MIN}
                   max={maxSize ? maxSize - MIN_DISTANCE : MAX - MIN_DISTANCE}
                   step={0.1}
                   isFloat={true}
+                  ariaLabel={preferredSizeLabel}
+                  title={preferredSizeLabel}
                   onChange={this.onPreferredSizeChange}
                 />
               </div>
@@ -306,6 +350,8 @@ class QualityDefinition extends Component {
                   max={MAX}
                   step={0.1}
                   isFloat={true}
+                  ariaLabel={maxSizeLabel}
+                  title={maxSizeLabel}
                   onChange={this.onMaxSizeChange}
                 />
               </div>

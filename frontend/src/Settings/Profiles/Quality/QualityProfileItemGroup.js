@@ -86,6 +86,8 @@ class QualityProfileItemGroup extends Component {
                   className={styles.nameInput}
                   name="name"
                   value={name}
+                  ariaLabel={`${name} quality group name`}
+                  title={`${name} quality group name`}
                   onChange={this.onNameChange}
                 />
               </div>

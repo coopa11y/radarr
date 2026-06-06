@@ -15,8 +15,12 @@ export interface CommonTextInputProps {
   readOnly?: boolean;
   autoFocus?: boolean;
   placeholder?: string;
+  id?: string;
   name: string;
   value: string | number | string[];
+  ariaLabel?: string;
+  ariaDescribedBy?: string;
+  title?: string;
   hasError?: boolean;
   hasWarning?: boolean;
   hasButton?: boolean;
@@ -45,8 +49,12 @@ function TextInput({
   readOnly = false,
   autoFocus = false,
   placeholder,
+  id,
   name,
   value = '',
+  ariaLabel,
+  ariaDescribedBy,
+  title,
   hasError,
   hasWarning,
   hasButton,
@@ -157,6 +165,7 @@ function TextInput({
       readOnly={readOnly}
       autoFocus={autoFocus}
       placeholder={placeholder}
+      id={id ?? name}
       className={classNames(
         className,
         readOnly && styles.readOnly,
@@ -166,6 +175,9 @@ function TextInput({
       )}
       name={name}
       value={value}
+      aria-label={ariaLabel}
+      aria-describedby={ariaDescribedBy}
+      title={title}
       step={step}
       min={min}
       max={max}

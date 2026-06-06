@@ -173,6 +173,8 @@ class DateFilterBuilderRowValue extends Component {
             className={styles.numberInput}
             name={NAME}
             value={filterValue.value}
+            ariaLabel="Relative date filter value. Increase to match a longer time span; decrease to match a shorter time span."
+            title="Relative date filter value. Increase to match a longer time span; decrease to match a shorter time span."
             onChange={this.onValueChange}
           />
 
@@ -193,6 +195,8 @@ class DateFilterBuilderRowValue extends Component {
         value={filterValue}
         type="date"
         placeholder="yyyy-mm-dd"
+        ariaLabel="Date filter value"
+        title="Date filter value"
         onChange={this.onValueChange}
       />
     );
