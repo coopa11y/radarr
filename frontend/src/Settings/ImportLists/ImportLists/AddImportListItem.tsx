@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import ActionCard from 'Components/Link/ActionCard';
 import Button from 'Components/Link/Button';
-import Link from 'Components/Link/Link';
 import Menu from 'Components/Menu/Menu';
 import MenuContent from 'Components/Menu/MenuContent';
 import { sizes } from 'Helpers/Props';
@@ -41,67 +41,55 @@ function AddImportListItem({
 
     onImportListSelect();
   }, [implementation, implementationName, dispatch, onImportListSelect]);
+  const addLabel = translate('AddImportListImplementation', {
+    implementationName,
+  });
 
   return (
-    <div className={styles.list}>
-      <Link
-        className={styles.underlay}
-        tabIndex={-1}
-        aria-hidden={true}
-        aria-label={translate('AddImportListImplementation', {
-          implementationName,
-        })}
-        title={implementationName}
-        onPress={handleImportListSelect}
-      />
-
-      <div className={styles.overlay}>
-        <Link
-          className={styles.name}
-          aria-label={translate('AddImportListImplementation', {
-            implementationName,
-          })}
-          onPress={handleImportListSelect}
-        >
-          {implementationName}
-        </Link>
-
-        <div className={styles.actions}>
-          {hasPresets && (
-            <span>
-              <Button size={sizes.SMALL} onPress={handleImportListSelect}>
-                {translate('Custom')}
-              </Button>
-
-              <Menu className={styles.presetsMenu}>
-                <Button className={styles.presetsMenuButton} size={sizes.SMALL}>
-                  {translate('Presets')}
-                </Button>
-
-                <MenuContent>
-                  {presets.map((preset) => {
-                    return (
-                      <AddImportListPresetMenuItem
-                        key={preset.name}
-                        name={preset.name}
-                        implementation={implementation}
-                        implementationName={implementationName}
-                        minRefreshInterval={minRefreshInterval}
-                        onPress={onImportListSelect}
-                      />
-                    );
-                  })}
-                </MenuContent>
-              </Menu>
-            </span>
-          )}
-
-          <Button to={infoLink} size={sizes.SMALL}>
-            {translate('MoreInfo')}
+    <ActionCard
+      className={styles.list}
+      underlayClassName={styles.underlay}
+      overlayClassName={styles.overlay}
+      nameClassName={styles.name}
+      actionsClassName={styles.actions}
+      label={addLabel}
+      title={implementationName}
+      name={implementationName}
+      onPress={handleImportListSelect}
+    >
+      {hasPresets && (
+        <span>
+          <Button size={sizes.SMALL} onPress={handleImportListSelect}>
+            {translate('Custom')}
           </Button>
-        </div>
-      </div>
-    </div>
+
+          <Menu className={styles.presetsMenu}>
+            <Button className={styles.presetsMenuButton} size={sizes.SMALL}>
+              {translate('Presets')}
+            </Button>
+
+            <MenuContent>
+              {presets.map((preset) => {
+                return (
+                  <AddImportListPresetMenuItem
+                    key={preset.name}
+                    name={preset.name}
+                    implementation={implementation}
+                    implementationName={implementationName}
+                    minRefreshInterval={minRefreshInterval}
+                    onPress={onImportListSelect}
+                  />
+                );
+              })}
+            </MenuContent>
+          </Menu>
+        </span>
+      )}
+
+      <Button to={infoLink} size={sizes.SMALL}>
+        {translate('MoreInfo')}
+      </Button>
+    </ActionCard>
   );
 }
 

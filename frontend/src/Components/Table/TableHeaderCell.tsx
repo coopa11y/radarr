@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import Icon from 'Components/Icon';
 import Link from 'Components/Link/Link';
+import useKeyboardActivation from 'Helpers/Hooks/useKeyboardActivation';
 import { icons, sortDirections } from 'Helpers/Props';
 import { SortDirection } from 'Helpers/Props/sortDirections';
 import styles from './TableHeaderCell.css';
@@ -56,15 +57,7 @@ function TableHeaderCell({
     }
   }, [name, fixedSortDirection, onSortPress]);
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLTableHeaderCellElement>) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        handlePress();
-      }
-    },
-    [handlePress]
-  );
+  const handleKeyDown = useKeyboardActivation<HTMLTableHeaderCellElement>();
 
   return isSortable ? (
     <Link

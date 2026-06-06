@@ -1,5 +1,6 @@
-import React, { ReactNode, useCallback } from 'react';
+import React, { ReactNode } from 'react';
 import Link, { LinkProps } from 'Components/Link/Link';
+import useKeyboardActivation from 'Helpers/Hooks/useKeyboardActivation';
 import TableRowCell from './TableRowCell';
 import styles from './TableRowCellButton.css';
 
@@ -16,20 +17,7 @@ function TableRowCellButton(props: TableRowCellButtonProps) {
     tabIndex = 0,
     ...otherProps
   } = props;
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLTableCellElement>) => {
-      onKeyDown?.(event);
-
-      if (
-        !event.defaultPrevented &&
-        (event.key === 'Enter' || event.key === ' ')
-      ) {
-        event.preventDefault();
-        event.currentTarget.click();
-      }
-    },
-    [onKeyDown]
-  );
+  const handleKeyDown = useKeyboardActivation<HTMLTableCellElement>(onKeyDown);
 
   return (
     <Link
