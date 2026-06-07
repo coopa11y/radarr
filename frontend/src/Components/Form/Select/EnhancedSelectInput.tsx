@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, {
   ElementType,
-  KeyboardEvent,
+  KeyboardEvent as ReactKeyboardEvent,
   ReactNode,
   useCallback,
   useEffect,
@@ -315,7 +315,7 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
   }, [isOpen, setIsOpen, removeListener]);
 
   const handleKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLButtonElement>) => {
+    (event: ReactKeyboardEvent<HTMLButtonElement>) => {
       const keyCode = event.keyCode;
       let nextIsOpen: boolean | null = null;
       let nextSelectedIndex: number | null = null;
@@ -405,6 +405,20 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
     setIsOpen(false);
   }, [setIsOpen]);
 
+  const handleWindowKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (!isOpen || event.keyCode !== keyCodes.ESCAPE) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      setIsOpen(false);
+      setSelectedIndex(getSelectedIndex(value, values));
+    },
+    [isOpen, value, values, setIsOpen, setSelectedIndex]
+  );
+
   const handleEditChange = useCallback(
     (change: InputChanged<string>) => {
       onChange(change as EnhancedSelectInputChanged<V>);
@@ -427,6 +441,18 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
 
     return removeListener;
   }, [isOpen, addListener, removeListener]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    window.addEventListener('keydown', handleWindowKeyDown, true);
+
+    return () => {
+      window.removeEventListener('keydown', handleWindowKeyDown, true);
+    };
+  }, [isOpen, handleWindowKeyDown]);
 
   return (
     <div>

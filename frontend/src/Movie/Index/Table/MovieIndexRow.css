@@ -113,6 +113,11 @@
   min-width: 90px;
 }
 
+.actionGroup {
+  display: inline-flex;
+  align-items: center;
+}
+
 .checkInput {
   composes: input from '~Components/Form/CheckInput.css';
 

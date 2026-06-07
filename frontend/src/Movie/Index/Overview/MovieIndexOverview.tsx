@@ -188,7 +188,11 @@ function MovieIndexOverview(props: MovieIndexOverviewProps) {
               {title}
             </Link>
 
-            <div className={styles.actions}>
+            <div
+              className={styles.actions}
+              role="toolbar"
+              aria-label={`${translate('Actions')}: ${title}`}
+            >
               <span className={styles.externalLinks}>
                 <Popover
                   anchor={<Icon name={icons.EXTERNAL_LINK} size={12} />}
@@ -207,6 +211,7 @@ function MovieIndexOverview(props: MovieIndexOverviewProps) {
               <SpinnerIconButton
                 name={icons.REFRESH}
                 title={translate('RefreshMovie')}
+                aria-label={`${translate('RefreshMovie')}: ${title}`}
                 isSpinning={isRefreshingMovie}
                 onPress={onRefreshPress}
               />
@@ -216,6 +221,7 @@ function MovieIndexOverview(props: MovieIndexOverviewProps) {
                   className={styles.actions}
                   name={icons.SEARCH}
                   title={translate('SearchForMovie')}
+                  aria-label={`${translate('SearchForMovie')}: ${title}`}
                   isSpinning={isSearchingMovie}
                   onPress={onSearchPress}
                 />
@@ -224,6 +230,7 @@ function MovieIndexOverview(props: MovieIndexOverviewProps) {
               <IconButton
                 name={icons.EDIT}
                 title={translate('EditMovie')}
+                aria-label={`${translate('EditMovie')}: ${title}`}
                 onPress={onEditMoviePress}
               />
             </div>

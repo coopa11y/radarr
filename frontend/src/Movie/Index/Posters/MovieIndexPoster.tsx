@@ -157,10 +157,15 @@ function MovieIndexPoster(props: MovieIndexPosterProps) {
           <MovieIndexPosterSelect movieId={movieId} titleSlug={titleSlug} />
         ) : null}
 
-        <Label className={styles.controls}>
+        <Label
+          className={styles.controls}
+          role="toolbar"
+          aria-label={`${translate('Actions')}: ${title}`}
+        >
           <SpinnerIconButton
             name={icons.REFRESH}
             title={translate('RefreshMovie')}
+            aria-label={`${translate('RefreshMovie')}: ${title}`}
             isSpinning={isRefreshingMovie}
             onPress={onRefreshPress}
           />
@@ -170,6 +175,7 @@ function MovieIndexPoster(props: MovieIndexPosterProps) {
               className={styles.action}
               name={icons.SEARCH}
               title={translate('SearchForMovie')}
+              aria-label={`${translate('SearchForMovie')}: ${title}`}
               isSpinning={isSearchingMovie}
               onPress={onSearchPress}
             />
@@ -178,6 +184,7 @@ function MovieIndexPoster(props: MovieIndexPosterProps) {
           <IconButton
             name={icons.EDIT}
             title={translate('EditMovie')}
+            aria-label={`${translate('EditMovie')}: ${title}`}
             onPress={onEditMoviePress}
           />
 

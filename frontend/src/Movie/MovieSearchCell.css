@@ -4,3 +4,8 @@
   width: 70px;
   white-space: nowrap;
 }
+
+.movieSearchActions {
+  display: inline-flex;
+  align-items: center;
+}

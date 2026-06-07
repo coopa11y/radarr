@@ -128,6 +128,7 @@ function MissingRow({
               key={name}
               movieId={id}
               movieEntity="wanted.missing"
+              movieTitle={title}
             />
           );
         }

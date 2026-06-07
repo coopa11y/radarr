@@ -448,43 +448,52 @@ function MovieIndexRow(props: MovieIndexRowProps) {
         if (name === 'actions') {
           return (
             <VirtualTableRowCell key={name} className={styles[name]}>
-              <span className={styles.externalLinks}>
-                <Tooltip
-                  anchor={<Icon name={icons.EXTERNAL_LINK} size={12} />}
-                  ariaLabel={translate('Links')}
-                  tooltip={
-                    <MovieDetailsLinks
-                      tmdbId={tmdbId}
-                      imdbId={imdbId}
-                      youTubeTrailerId={youTubeTrailerId}
-                    />
-                  }
-                  canFlip={true}
-                  kind={kinds.INVERSE}
-                />
-              </span>
+              <div
+                className={styles.actionGroup}
+                role="toolbar"
+                aria-label={`${translate('Actions')}: ${title}`}
+              >
+                <span className={styles.externalLinks}>
+                  <Tooltip
+                    anchor={<Icon name={icons.EXTERNAL_LINK} size={12} />}
+                    ariaLabel={translate('Links')}
+                    tooltip={
+                      <MovieDetailsLinks
+                        tmdbId={tmdbId}
+                        imdbId={imdbId}
+                        youTubeTrailerId={youTubeTrailerId}
+                      />
+                    }
+                    canFlip={true}
+                    kind={kinds.INVERSE}
+                  />
+                </span>
 
-              <SpinnerIconButton
-                name={icons.REFRESH}
-                title={translate('RefreshMovie')}
-                isSpinning={isRefreshingMovie}
-                onPress={onRefreshPress}
-              />
-
-              {showSearchAction ? (
                 <SpinnerIconButton
-                  name={icons.SEARCH}
-                  title={translate('SearchForMovie')}
-                  isSpinning={isSearchingMovie}
-                  onPress={onSearchPress}
+                  name={icons.REFRESH}
+                  title={translate('RefreshMovie')}
+                  aria-label={`${translate('RefreshMovie')}: ${title}`}
+                  isSpinning={isRefreshingMovie}
+                  onPress={onRefreshPress}
                 />
-              ) : null}
 
-              <IconButton
-                name={icons.EDIT}
-                title={translate('EditMovie')}
-                onPress={onEditMoviePress}
-              />
+                {showSearchAction ? (
+                  <SpinnerIconButton
+                    name={icons.SEARCH}
+                    title={translate('SearchForMovie')}
+                    aria-label={`${translate('SearchForMovie')}: ${title}`}
+                    isSpinning={isSearchingMovie}
+                    onPress={onSearchPress}
+                  />
+                ) : null}
+
+                <IconButton
+                  name={icons.EDIT}
+                  title={translate('EditMovie')}
+                  aria-label={`${translate('EditMovie')}: ${title}`}
+                  onPress={onEditMoviePress}
+                />
+              </div>
             </VirtualTableRowCell>
           );
         }

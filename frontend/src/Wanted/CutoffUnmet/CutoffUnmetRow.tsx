@@ -137,6 +137,7 @@ function CutoffUnmetRow({
               key={name}
               movieId={id}
               movieEntity="wanted.cutoffUnmet"
+              movieTitle={title}
             />
           );
         }

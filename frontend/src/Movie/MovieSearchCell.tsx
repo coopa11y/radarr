@@ -16,9 +16,10 @@ import styles from './MovieSearchCell.css';
 interface MovieSearchCellProps {
   movieId: number;
   movieEntity?: MovieEntity;
+  movieTitle?: string;
 }
 
-function MovieSearchCell({ movieId }: MovieSearchCellProps) {
+function MovieSearchCell({ movieId, movieTitle }: MovieSearchCellProps) {
   const executingCommands = useSelector(createExecutingCommandsSelector());
   const isSearching = executingCommands.some(({ name, body }) => {
     const { movieIds = [] } = body;
@@ -42,20 +43,38 @@ function MovieSearchCell({ movieId }: MovieSearchCellProps) {
     );
   }, [movieId, dispatch]);
 
+  const automaticSearchLabel = movieTitle
+    ? `${translate('AutomaticSearch')}: ${movieTitle}`
+    : translate('AutomaticSearch');
+  const interactiveSearchLabel = movieTitle
+    ? `${translate('InteractiveSearch')}: ${movieTitle}`
+    : translate('InteractiveSearch');
+  const searchActionsLabel = movieTitle
+    ? `${translate('Actions')}: ${movieTitle}`
+    : translate('Actions');
+
   return (
     <TableRowCell className={styles.movieSearchCell}>
-      <SpinnerIconButton
-        name={icons.SEARCH}
-        isSpinning={isSearching}
-        title={translate('AutomaticSearch')}
-        onPress={handleSearchPress}
-      />
+      <div
+        className={styles.movieSearchActions}
+        role="toolbar"
+        aria-label={searchActionsLabel}
+      >
+        <SpinnerIconButton
+          name={icons.SEARCH}
+          isSpinning={isSearching}
+          title={translate('AutomaticSearch')}
+          aria-label={automaticSearchLabel}
+          onPress={handleSearchPress}
+        />
 
-      <IconButton
-        name={icons.INTERACTIVE}
-        title={translate('InteractiveSearch')}
-        onPress={setInteractiveSearchModalOpen}
-      />
+        <IconButton
+          name={icons.INTERACTIVE}
+          title={translate('InteractiveSearch')}
+          aria-label={interactiveSearchLabel}
+          onPress={setInteractiveSearchModalOpen}
+        />
+      </div>
 
       <MovieInteractiveSearchModal
         isOpen={isInteractiveSearchModalOpen}
