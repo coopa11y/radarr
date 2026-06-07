@@ -8,6 +8,7 @@
     "clean": "rimraf ./_output/UI && rimraf --glob \"**/*.js.map\"",
     "start": "webpack --watch --config ./frontend/build/webpack.config.js",
     "watch": "webpack --watch --config ./frontend/build/webpack.config.js",
+    "a11y-check": "node ./frontend/scripts/a11y-check.mjs",
     "lint": "eslint --config frontend/.eslintrc.js --ignore-path frontend/.eslintignore frontend/",
     "lint-fix": "yarn lint --fix",
     "stylelint-linux": "stylelint $(find frontend -name '*.css') --config frontend/.stylelintrc",

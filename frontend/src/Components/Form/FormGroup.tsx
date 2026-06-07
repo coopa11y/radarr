@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { Children, ComponentPropsWithoutRef, ReactNode } from 'react';
 import { Size } from 'Helpers/Props/sizes';
+import FormLabel from './FormLabel';
 import styles from './FormGroup.css';
 
 interface FormGroupProps extends ComponentPropsWithoutRef<'div'> {
@@ -25,16 +26,40 @@ function FormGroup(props: FormGroupProps) {
     return null;
   }
 
+  const childrenArray = Children.toArray(children);
+  const inputName = childrenArray.find((child) => {
+    if (!React.isValidElement(child) || child.type === FormLabel) {
+      return false;
+    }
+
+    return typeof child.props.name === 'string';
+  });
+  const labelName =
+    React.isValidElement(inputName) && typeof inputName.props.name === 'string'
+      ? inputName.props.name
+      : undefined;
   const childProps = isAdvanced ? { isAdvanced } : {};
 
   return (
     <div className={classNames(className, styles[size])} {...otherProps}>
-      {Children.map(children, (child) => {
+      {childrenArray.map((child) => {
         if (!React.isValidElement(child)) {
           return child;
         }
 
-        return React.cloneElement(child, childProps);
+        const element = child as React.ReactElement<{
+          isAdvanced?: boolean;
+          name?: string;
+        }>;
+
+        if (element.type === FormLabel && !element.props.name && labelName) {
+          return React.cloneElement(element, {
+            ...childProps,
+            name: labelName,
+          });
+        }
+
+        return React.cloneElement(element, childProps);
       })}
     </div>
   );

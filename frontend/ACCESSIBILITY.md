@@ -39,6 +39,7 @@ through shared UI primitives instead of page-specific patches.
 
 ## NVDA Smoke Test
 
+- Run `yarn a11y-check` before a11y commits to catch common regressions.
 - Tab through the changed surface without using a mouse.
 - Confirm every actionable item has a useful name and can be activated with
   Enter or Space.
