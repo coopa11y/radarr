@@ -158,7 +158,7 @@ function ScheduledTaskRow(props: ScheduledTaskRowProps) {
       ) : null}
 
       <TableRowCell className={styles.actions}>
-        <ActionGroup label={`${translate('Actions')}: ${name}`}>
+        <ActionGroup context={name}>
           <SpinnerIconButton
             name={icons.REFRESH}
             spinningName={icons.REFRESH}

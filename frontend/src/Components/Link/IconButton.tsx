@@ -39,6 +39,7 @@ export default function IconButton({
         kind={kind}
         size={size}
         isSpinning={isSpinning}
+        aria-hidden={true}
       />
     </Link>
   );

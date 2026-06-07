@@ -206,7 +206,7 @@ function HistoryRow(props: HistoryRowProps) {
         if (name === 'details') {
           return (
             <TableRowCell key={name} className={styles.details}>
-              <ActionGroup label={`${translate('Actions')}: ${sourceTitle}`}>
+              <ActionGroup context={sourceTitle}>
                 <IconButton
                   name={icons.INFO}
                   title={translate('Details')}

@@ -62,7 +62,7 @@ function RecentFolderRow({
       <RelativeDateCell date={lastUsed} />
 
       <TableRowCell className={styles.actions}>
-        <ActionGroup label={`${translate('Actions')}: ${folder}`}>
+        <ActionGroup context={folder}>
           <IconButton
             title={
               isFavorite

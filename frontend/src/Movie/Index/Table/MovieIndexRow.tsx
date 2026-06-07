@@ -449,7 +449,7 @@ function MovieIndexRow(props: MovieIndexRowProps) {
         if (name === 'actions') {
           return (
             <VirtualTableRowCell key={name} className={styles[name]}>
-              <ActionGroup label={`${translate('Actions')}: ${title}`}>
+              <ActionGroup context={title}>
                 <span className={styles.externalLinks}>
                   <Tooltip
                     anchor={<Icon name={icons.EXTERNAL_LINK} size={12} />}

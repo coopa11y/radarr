@@ -97,7 +97,7 @@ function ManageCustomFormatsModalRow(props: ManageCustomFormatsModalRowProps) {
       </TableRowCell>
 
       <TableRowCell className={styles.actions}>
-        <ActionGroup label={`${translate('Actions')}: ${name}`}>
+        <ActionGroup context={name}>
           <IconButton
             name={icons.EDIT}
             title={translate('Edit')}

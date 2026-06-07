@@ -73,7 +73,7 @@ function RootFolderRow(props: RootFolderRowProps) {
       </TableRowCell>
 
       <TableRowCell className={styles.actions}>
-        <ActionGroup label={`${translate('Actions')}: ${path}`}>
+        <ActionGroup context={path}>
           <IconButton
             title={translate('RemoveRootFolder')}
             aria-label={`${translate('RemoveRootFolder')}: ${path}`}

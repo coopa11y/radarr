@@ -219,7 +219,7 @@ export default function QueuedTaskRow(props: QueuedTaskRowProps) {
 
       <TableRowCell className={styles.actions}>
         {status === 'queued' && (
-          <ActionGroup label={`${translate('Actions')}: ${commandName}`}>
+          <ActionGroup context={commandName}>
             <IconButton
               title={translate('Cancel')}
               aria-label={`${translate('Cancel')}: ${commandName}`}

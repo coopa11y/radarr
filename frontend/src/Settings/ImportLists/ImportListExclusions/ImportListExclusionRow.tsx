@@ -55,7 +55,7 @@ function ImportListExclusionRow(props: ImportListExclusionRowProps) {
       <TableRowCell>{movieYear}</TableRowCell>
 
       <TableRowCell className={styles.actions}>
-        <ActionGroup label={`${translate('Actions')}: ${movieTitle}`}>
+        <ActionGroup context={movieTitle}>
           <IconButton
             name={icons.EDIT}
             title={translate('Edit')}

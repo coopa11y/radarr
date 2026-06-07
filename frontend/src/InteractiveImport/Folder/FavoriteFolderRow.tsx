@@ -35,7 +35,7 @@ function FavoriteFolderRow({ folder, onPress }: FavoriteFolderRowProps) {
       <TableRowCell>{folder}</TableRowCell>
 
       <TableRowCell className={styles.actions}>
-        <ActionGroup label={`${translate('Actions')}: ${folder}`}>
+        <ActionGroup context={folder}>
           <IconButton
             title={translate('FavoriteFolderRemove')}
             aria-label={`${translate('FavoriteFolderRemove')}: ${folder}`}
