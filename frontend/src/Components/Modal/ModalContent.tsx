@@ -40,7 +40,6 @@ function ModalContent({
         {showCloseButton && (
           <Link
             className={styles.closeButton}
-            aria-label={translate('Close')}
             title={translate('Close')}
             onPress={onModalClose}
           >

@@ -272,7 +272,6 @@ function ImportListExclusions() {
                   <IconButton
                     name={icons.ADD}
                     title={translate('AddImportListExclusion')}
-                    aria-label={translate('AddImportListExclusion')}
                     onPress={setAddImportListExclusionModalOpen}
                   />
                 </ActionGroup>

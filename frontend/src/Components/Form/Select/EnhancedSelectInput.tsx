@@ -649,7 +649,6 @@ function EnhancedSelectInput<T extends EnhancedSelectInputValue<V>, V>(
               <div className={styles.mobileCloseButtonContainer}>
                 <Link
                   className={styles.mobileCloseButton}
-                  aria-label={translate('Close')}
                   title={translate('Close')}
                   onPress={handleOptionsModalClose}
                 >
