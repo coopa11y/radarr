@@ -6,9 +6,11 @@ import DownloadClientSettings from './DownloadClientSettings';
 function createMapStateToProps() {
   return createSelector(
     (state) => state.settings.downloadClients.isTestingAll,
-    (isTestingAll) => {
+    (state) => state.settings.downloadClients.saveError,
+    (isTestingAll, testAllError) => {
       return {
-        isTestingAll
+        isTestingAll,
+        testAllError
       };
     }
   );

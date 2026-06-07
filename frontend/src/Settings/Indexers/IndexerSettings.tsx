@@ -22,6 +22,9 @@ function IndexerSettings() {
   const isTestingAll = useSelector(
     (state: AppState) => state.settings.indexers.isTestingAll
   );
+  const testAllError = useSelector(
+    (state: AppState) => state.settings.indexers.saveError
+  );
 
   const saveOptions = useRef<() => void>();
 
@@ -71,6 +74,8 @@ function IndexerSettings() {
               label={translate('TestAllIndexers')}
               iconName={icons.TEST}
               isSpinning={isTestingAll}
+              announceCompletion={true}
+              error={testAllError}
               onPress={handleTestAllIndexersPress}
             />
 

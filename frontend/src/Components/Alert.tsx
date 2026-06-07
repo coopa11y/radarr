@@ -6,13 +6,38 @@ import styles from './Alert.css';
 interface AlertProps {
   className?: string;
   kind?: Extract<Kind, keyof typeof styles>;
+  role?: 'alert' | 'status';
   children: React.ReactNode;
 }
 
 function Alert(props: AlertProps) {
-  const { className = styles.alert, kind = 'info', children } = props;
+  const { className = styles.alert, kind = 'info', role, children } = props;
 
-  return <div className={classNames(className, styles[kind])}>{children}</div>;
+  let alertRole = role;
+
+  if (!alertRole && kind === 'danger') {
+    alertRole = 'alert';
+  } else if (!alertRole && kind === 'warning') {
+    alertRole = 'status';
+  }
+
+  let ariaLive: 'assertive' | 'polite' | undefined = undefined;
+
+  if (alertRole === 'alert') {
+    ariaLive = 'assertive';
+  } else if (alertRole === 'status') {
+    ariaLive = 'polite';
+  }
+
+  return (
+    <div
+      className={classNames(className, styles[kind])}
+      role={alertRole}
+      aria-live={ariaLive}
+    >
+      {children}
+    </div>
+  );
 }
 
 export default Alert;

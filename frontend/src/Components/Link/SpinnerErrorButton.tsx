@@ -1,4 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  CSSProperties,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Error } from 'App/State/AppSectionState';
 import Icon, { IconKind, IconName } from 'Components/Icon';
 import SpinnerButton, {
@@ -8,6 +15,56 @@ import usePrevious from 'Helpers/Hooks/usePrevious';
 import { icons } from 'Helpers/Props';
 import { ValidationFailure } from 'typings/pending';
 import styles from './SpinnerErrorButton.css';
+
+const screenReaderOnlyStyle: CSSProperties = {
+  position: 'absolute',
+  width: 1,
+  height: 1,
+  padding: 0,
+  margin: -1,
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  border: 0,
+};
+
+function getTextContent(node: ReactNode): string {
+  if (typeof node === 'string' || typeof node === 'number') {
+    return String(node);
+  }
+
+  if (Array.isArray(node)) {
+    return node.map(getTextContent).join(' ').trim();
+  }
+
+  if (React.isValidElement<{ children?: ReactNode }>(node)) {
+    return getTextContent(node.props.children);
+  }
+
+  return '';
+}
+
+function getErrorMessages(error: Error | string | undefined) {
+  if (!error) {
+    return [];
+  }
+
+  if (typeof error === 'string') {
+    return [error];
+  }
+
+  const responseJSON = error.responseJSON;
+
+  if (Array.isArray(responseJSON)) {
+    return responseJSON.map((failure) => failure.errorMessage).filter(Boolean);
+  }
+
+  if (responseJSON?.message) {
+    return [responseJSON.message];
+  }
+
+  return [];
+}
 
 function getTestResult(error: Error | string | undefined) {
   if (!error) {
@@ -48,6 +105,33 @@ function getTestResult(error: Error | string | undefined) {
   };
 }
 
+function getStatusAnnouncement(
+  actionLabel: string,
+  result: ReturnType<typeof getTestResult>,
+  error: Error | string | undefined
+) {
+  const label = actionLabel || 'Action';
+  const [firstErrorMessage] = getErrorMessages(error);
+
+  if (result.wasSuccessful) {
+    return `${label} completed successfully.`;
+  }
+
+  if (result.hasWarning) {
+    return firstErrorMessage
+      ? `${label} completed with warnings. ${firstErrorMessage}`
+      : `${label} completed with warnings.`;
+  }
+
+  if (result.hasError) {
+    return firstErrorMessage
+      ? `${label} failed. ${firstErrorMessage}`
+      : `${label} failed.`;
+  }
+
+  return '';
+}
+
 interface SpinnerErrorButtonProps extends SpinnerButtonProps {
   isSpinning: boolean;
   error?: Error | string;
@@ -69,7 +153,9 @@ function SpinnerErrorButton({
     hasWarning: false,
     hasError: false,
   });
+  const [announcement, setAnnouncement] = useState('');
   const { wasSuccessful, hasWarning, hasError } = result;
+  const actionLabel = useMemo(() => getTextContent(children), [children]);
 
   const showIcon = wasSuccessful || hasWarning || hasError;
 
@@ -102,6 +188,7 @@ function SpinnerErrorButton({
       const testResult = getTestResult(error);
 
       setResult(testResult);
+      setAnnouncement(getStatusAnnouncement(actionLabel, testResult, error));
 
       const { wasSuccessful, hasWarning, hasError } = testResult;
 
@@ -115,7 +202,7 @@ function SpinnerErrorButton({
         }, 3000);
       }
     }
-  }, [isSpinning, wasSpinning, error]);
+  }, [isSpinning, wasSpinning, error, actionLabel]);
 
   useEffect(() => {
     return () => {
@@ -126,17 +213,23 @@ function SpinnerErrorButton({
   }, []);
 
   return (
-    <SpinnerButton kind={kind} isSpinning={isSpinning} {...otherProps}>
-      <span className={showIcon ? styles.showIcon : undefined}>
-        {showIcon && (
-          <span className={styles.iconContainer}>
-            <Icon name={iconName} kind={iconKind} />
-          </span>
-        )}
+    <>
+      <SpinnerButton kind={kind} isSpinning={isSpinning} {...otherProps}>
+        <span className={showIcon ? styles.showIcon : undefined}>
+          {showIcon && (
+            <span className={styles.iconContainer}>
+              <Icon name={iconName} kind={iconKind} />
+            </span>
+          )}
 
-        <span className={styles.label}>{children}</span>
+          <span className={styles.label}>{children}</span>
+        </span>
+      </SpinnerButton>
+
+      <span aria-live="polite" aria-atomic="true" style={screenReaderOnlyStyle}>
+        {announcement}
       </span>
-    </SpinnerButton>
+    </>
   );
 }
 

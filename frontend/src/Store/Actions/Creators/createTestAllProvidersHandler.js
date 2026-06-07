@@ -3,7 +3,11 @@ import { set } from '../baseActions';
 
 function createTestAllProvidersHandler(section, url) {
   return function(getState, payload, dispatch) {
-    dispatch(set({ section, isTestingAll: true }));
+    dispatch(set({
+      section,
+      isTestingAll: true,
+      saveError: null
+    }));
 
     const ajaxOptions = {
       url: `${url}/testall`,
@@ -25,7 +29,8 @@ function createTestAllProvidersHandler(section, url) {
     request.fail((xhr) => {
       dispatch(set({
         section,
-        isTestingAll: false
+        isTestingAll: false,
+        saveError: xhr.aborted ? null : xhr
       }));
     });
   };
