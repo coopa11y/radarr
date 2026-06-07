@@ -59,7 +59,7 @@ function ImportListExclusionRow(props: ImportListExclusionRowProps) {
           <IconButton
             name={icons.EDIT}
             title={translate('Edit')}
-            aria-label={`${translate('Edit')}: ${movieTitle}`}
+            context={movieTitle}
             onPress={setEditImportListExclusionModalOpen}
           />
         </ActionGroup>

@@ -8,11 +8,15 @@ import styles from './IconButton.css';
 export interface IconButtonProps
   extends Omit<LinkProps, 'name' | 'kind'>,
     Pick<IconProps, 'name' | 'kind' | 'size' | 'isSpinning'> {
+  actionLabel?: string;
+  context?: string;
   iconClassName?: IconProps['className'];
 }
 
 export default function IconButton({
+  actionLabel,
   className = styles.button,
+  context,
   iconClassName,
   name,
   kind,
@@ -22,6 +26,11 @@ export default function IconButton({
 }: IconButtonProps) {
   const ariaLabel = otherProps['aria-label'];
   const { title, ...linkProps } = otherProps;
+  const label = actionLabel ?? title;
+  const accessibleLabel =
+    ariaLabel ??
+    (label && context ? `${label}: ${context}` : label) ??
+    translate('Options');
 
   return (
     <Link
@@ -30,7 +39,7 @@ export default function IconButton({
         className,
         linkProps.isDisabled && styles.isDisabled
       )}
-      aria-label={ariaLabel ?? title ?? translate('Options')}
+      aria-label={accessibleLabel}
       title={title}
     >
       <Icon

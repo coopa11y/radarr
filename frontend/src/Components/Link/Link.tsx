@@ -10,7 +10,9 @@ import styles from './Link.css';
 
 export type LinkProps<C extends ElementType = 'button'> =
   ComponentPropsWithoutRef<C> & {
+    actionLabel?: string;
     component?: C;
+    context?: string;
     to?: string;
     target?: string;
     isDisabled?: LinkProps<C>['disabled'];
@@ -19,8 +21,10 @@ export type LinkProps<C extends ElementType = 'button'> =
   };
 
 export default function Link<C extends ElementType = 'button'>({
+  actionLabel,
   className,
   component,
+  context,
   to,
   target,
   type,
@@ -30,6 +34,10 @@ export default function Link<C extends ElementType = 'button'>({
   ...otherProps
 }: LinkProps<C>) {
   const Component = component || 'button';
+  const ariaLabel = otherProps['aria-label'];
+  const label = actionLabel ?? otherProps.title;
+  const accessibleLabel =
+    ariaLabel ?? (label && context ? `${label}: ${context}` : actionLabel);
 
   const onClick = useCallback(
     (event: SyntheticEvent) => {
@@ -59,6 +67,7 @@ export default function Link<C extends ElementType = 'button'>({
           target={target || (toLink ? '_blank' : '_self')}
           rel={toLink ? 'noreferrer' : undefined}
           className={linkClass}
+          aria-label={accessibleLabel}
           onClick={onClick}
           {...otherProps}
         />
@@ -70,6 +79,7 @@ export default function Link<C extends ElementType = 'button'>({
         to={`${window.Radarr.urlBase}/${to.replace(/^\//, '')}`}
         target={target}
         className={linkClass}
+        aria-label={accessibleLabel}
         onClick={onClick}
         {...otherProps}
       />
@@ -85,6 +95,7 @@ export default function Link<C extends ElementType = 'button'>({
       }
       target={target}
       className={linkClass}
+      aria-label={accessibleLabel}
       disabled={isDisabled}
       onClick={onClick}
       {...otherProps}

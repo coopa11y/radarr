@@ -51,7 +51,7 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.MOVIE_CONTINUING}
           title={translate('Collections')}
-          aria-label={`${translate('Collections')}: ${label}`}
+          context={label}
           to="/collections"
         />
       );
@@ -60,7 +60,7 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.MOVIE_CONTINUING}
           title={translate('MovieEditor')}
-          aria-label={`${translate('MovieEditor')}: ${label}`}
+          context={label}
           to="/"
         />
       );
@@ -69,7 +69,7 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.UPDATE}
           title={translate('Updates')}
-          aria-label={`${translate('Updates')}: ${label}`}
+          context={label}
           to="/system/updates"
         />
       );

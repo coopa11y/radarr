@@ -163,7 +163,7 @@ function ScheduledTaskRow(props: ScheduledTaskRowProps) {
             name={icons.REFRESH}
             spinningName={icons.REFRESH}
             title={translate('Execute')}
-            aria-label={`${translate('Execute')}: ${name}`}
+            context={name}
             isSpinning={isExecuting}
             onPress={handleExecutePress}
           />

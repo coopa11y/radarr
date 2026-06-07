@@ -38,7 +38,7 @@ function FavoriteFolderRow({ folder, onPress }: FavoriteFolderRowProps) {
         <ActionGroup context={folder}>
           <IconButton
             title={translate('FavoriteFolderRemove')}
-            aria-label={`${translate('FavoriteFolderRemove')}: ${folder}`}
+            context={folder}
             kind="danger"
             name={icons.HEART}
             onPress={handleRemoveFavoritePress}

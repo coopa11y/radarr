@@ -74,7 +74,7 @@ export default function Specification({
         <IconButton
           className={styles.cloneButton}
           title={translate('Clone')}
-          aria-label={`${translate('Clone')}: ${name}`}
+          context={name}
           name={icons.CLONE}
           onPress={onClonePress}
         />

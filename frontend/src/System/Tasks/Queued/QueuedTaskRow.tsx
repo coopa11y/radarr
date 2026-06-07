@@ -222,7 +222,7 @@ export default function QueuedTaskRow(props: QueuedTaskRowProps) {
           <ActionGroup context={commandName}>
             <IconButton
               title={translate('Cancel')}
-              aria-label={`${translate('Cancel')}: ${commandName}`}
+              context={commandName}
               name={icons.REMOVE}
               onPress={openCancelConfirmModal}
             />

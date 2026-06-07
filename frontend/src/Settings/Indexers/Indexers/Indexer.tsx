@@ -79,7 +79,7 @@ function Indexer({
         <IconButton
           className={styles.cloneButton}
           title={translate('CloneIndexer')}
-          aria-label={`${translate('CloneIndexer')}: ${name}`}
+          context={name}
           name={icons.CLONE}
           onPress={handleCloneIndexerPress}
         />

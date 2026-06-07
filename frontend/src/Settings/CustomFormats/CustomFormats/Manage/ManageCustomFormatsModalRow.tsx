@@ -101,7 +101,7 @@ function ManageCustomFormatsModalRow(props: ManageCustomFormatsModalRowProps) {
           <IconButton
             name={icons.EDIT}
             title={translate('Edit')}
-            aria-label={`${translate('Edit')}: ${name}`}
+            context={name}
             onPress={handleEditCustomFormatModalOpen}
           />
         </ActionGroup>

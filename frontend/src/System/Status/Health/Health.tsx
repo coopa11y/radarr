@@ -132,9 +132,7 @@ function Health() {
                           name={icons.WIKI}
                           to={item.wikiUrl}
                           title={translate('ReadTheWikiForMoreInformation')}
-                          aria-label={`${translate(
-                            'ReadTheWikiForMoreInformation'
-                          )}: ${item.message}`}
+                          context={item.message}
                         />
 
                         <HealthItemLink source={source} label={item.message} />
@@ -144,9 +142,7 @@ function Health() {
                           <SpinnerIconButton
                             name={icons.TEST}
                             title={translate('TestAll')}
-                            aria-label={`${translate('TestAll')}: ${
-                              item.message
-                            }`}
+                            context={item.message}
                             isSpinning={isTestingAllIndexers}
                             onPress={handleTestAllIndexersPress}
                           />
@@ -157,9 +153,7 @@ function Health() {
                           <SpinnerIconButton
                             name={icons.TEST}
                             title={translate('TestAll')}
-                            aria-label={`${translate('TestAll')}: ${
-                              item.message
-                            }`}
+                            context={item.message}
                             isSpinning={isTestingAllDownloadClients}
                             onPress={handleTestAllDownloadClientsPress}
                           />

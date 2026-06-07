@@ -210,7 +210,7 @@ function HistoryRow(props: HistoryRowProps) {
                 <IconButton
                   name={icons.INFO}
                   title={translate('Details')}
-                  aria-label={`${translate('Details')}: ${sourceTitle}`}
+                  context={sourceTitle}
                   onPress={handleDetailsPress}
                 />
               </ActionGroup>

@@ -76,7 +76,7 @@ function RootFolderRow(props: RootFolderRowProps) {
         <ActionGroup context={path}>
           <IconButton
             title={translate('RemoveRootFolder')}
-            aria-label={`${translate('RemoveRootFolder')}: ${path}`}
+            context={path}
             name={icons.REMOVE}
             onPress={onDeletePress}
           />

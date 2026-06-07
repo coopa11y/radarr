@@ -76,7 +76,7 @@ export default function AutoTagging({
           <IconButton
             className={styles.cloneButton}
             title={translate('CloneAutoTag')}
-            aria-label={`${translate('CloneAutoTag')}: ${name}`}
+            context={name}
             name={icons.CLONE}
             onPress={onClonePress}
           />
