@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import RelativeDateCell from 'Components/Table/Cells/RelativeDateCell';
 import TableRowCell from 'Components/Table/Cells/TableRowCell';
@@ -61,6 +62,11 @@ function BlocklistRow(props: BlocklistRowProps) {
   if (!movie) {
     return null;
   }
+
+  const actionContext = movie.title || sourceTitle;
+  const actionGroupLabel = `${translate('Actions')}: ${actionContext}`;
+  const detailsLabel = `${translate('Details')}: ${sourceTitle}`;
+  const removeLabel = `${translate('RemoveFromBlocklist')}: ${sourceTitle}`;
 
   return (
     <TableRow>
@@ -130,18 +136,22 @@ function BlocklistRow(props: BlocklistRowProps) {
         if (name === 'actions') {
           return (
             <TableRowCell key={name} className={styles.actions}>
-              <IconButton
-                name={icons.INFO}
-                title={translate('Details')}
-                onPress={handleDetailsPress}
-              />
+              <ActionGroup label={actionGroupLabel}>
+                <IconButton
+                  name={icons.INFO}
+                  title={translate('Details')}
+                  aria-label={detailsLabel}
+                  onPress={handleDetailsPress}
+                />
 
-              <IconButton
-                title={translate('RemoveFromBlocklist')}
-                name={icons.REMOVE}
-                kind={kinds.DANGER}
-                onPress={handleRemovePress}
-              />
+                <IconButton
+                  title={translate('RemoveFromBlocklist')}
+                  aria-label={removeLabel}
+                  name={icons.REMOVE}
+                  kind={kinds.DANGER}
+                  onPress={handleRemovePress}
+                />
+              </ActionGroup>
             </TableRowCell>
           );
         }

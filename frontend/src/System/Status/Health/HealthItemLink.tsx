@@ -5,10 +5,12 @@ import translate from 'Utilities/String/translate';
 
 interface HealthItemLinkProps {
   source: string;
+  label: string;
 }
 
 function HealthItemLink(props: HealthItemLinkProps) {
-  const { source } = props;
+  const { source, label } = props;
+  const settingsLabel = `${translate('Settings')}: ${label}`;
 
   switch (source) {
     case 'IndexerRssCheck':
@@ -20,6 +22,7 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.SETTINGS}
           title={translate('Settings')}
+          aria-label={settingsLabel}
           to="/settings/indexers"
         />
       );
@@ -30,6 +33,7 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.SETTINGS}
           title={translate('Settings')}
+          aria-label={settingsLabel}
           to="/settings/downloadclients"
         />
       );
@@ -38,6 +42,7 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.SETTINGS}
           title={translate('Settings')}
+          aria-label={settingsLabel}
           to="/settings/connect"
         />
       );
@@ -46,6 +51,7 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.MOVIE_CONTINUING}
           title={translate('Collections')}
+          aria-label={`${translate('Collections')}: ${label}`}
           to="/collections"
         />
       );
@@ -54,6 +60,7 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.MOVIE_CONTINUING}
           title={translate('MovieEditor')}
+          aria-label={`${translate('MovieEditor')}: ${label}`}
           to="/"
         />
       );
@@ -62,6 +69,7 @@ function HealthItemLink(props: HealthItemLinkProps) {
         <IconButton
           name={icons.UPDATE}
           title={translate('Updates')}
+          aria-label={`${translate('Updates')}: ${label}`}
           to="/system/updates"
         />
       );

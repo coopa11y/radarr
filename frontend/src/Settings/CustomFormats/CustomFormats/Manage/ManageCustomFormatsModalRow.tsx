@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import AppState from 'App/State/AppState';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
 import TableRowCell from 'Components/Table/Cells/TableRowCell';
@@ -96,10 +97,14 @@ function ManageCustomFormatsModalRow(props: ManageCustomFormatsModalRowProps) {
       </TableRowCell>
 
       <TableRowCell className={styles.actions}>
-        <IconButton
-          name={icons.EDIT}
-          onPress={handleEditCustomFormatModalOpen}
-        />
+        <ActionGroup label={`${translate('Actions')}: ${name}`}>
+          <IconButton
+            name={icons.EDIT}
+            title={translate('Edit')}
+            aria-label={`${translate('Edit')}: ${name}`}
+            onPress={handleEditCustomFormatModalOpen}
+          />
+        </ActionGroup>
       </TableRowCell>
 
       <EditCustomFormatModalConnector

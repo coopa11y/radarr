@@ -1,0 +1,5 @@
+.actionGroup {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}

@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProtocolLabel from 'Activity/Queue/ProtocolLabel';
 import { Error } from 'App/State/AppSectionState';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import SpinnerIconButton from 'Components/Link/SpinnerIconButton';
 import ProgressBar from 'Components/ProgressBar';
@@ -110,6 +111,10 @@ function QueueRow(props: QueueRowProps) {
   const { showRelativeDates, shortDateFormat, timeFormat } = useSelector(
     createUISettingsSelector()
   );
+  const actionGroupLabel = `${translate('Actions')}: ${title}`;
+  const interactiveImportLabel = `${translate('InteractiveImport')}: ${title}`;
+  const grabLabel = `${translate('Grab')}: ${title}`;
+  const removeFromQueueLabel = `${translate('RemoveFromQueue')}: ${title}`;
 
   const [isRemoveQueueItemModalOpen, setIsRemoveQueueItemModalOpen] =
     useState(false);
@@ -309,28 +314,35 @@ function QueueRow(props: QueueRowProps) {
         if (name === 'actions') {
           return (
             <TableRowCell key={name} className={styles.actions}>
-              {showInteractiveImport ? (
-                <IconButton
-                  name={icons.INTERACTIVE}
-                  onPress={handleInteractiveImportPress}
-                />
-              ) : null}
+              <ActionGroup label={actionGroupLabel}>
+                {showInteractiveImport ? (
+                  <IconButton
+                    name={icons.INTERACTIVE}
+                    title={translate('InteractiveImport')}
+                    aria-label={interactiveImportLabel}
+                    onPress={handleInteractiveImportPress}
+                  />
+                ) : null}
 
-              {isPending ? (
+                {isPending ? (
+                  <SpinnerIconButton
+                    name={icons.DOWNLOAD}
+                    title={translate('Grab')}
+                    aria-label={grabLabel}
+                    kind={grabError ? kinds.DANGER : kinds.DEFAULT}
+                    isSpinning={isGrabbing}
+                    onPress={handleGrabPress}
+                  />
+                ) : null}
+
                 <SpinnerIconButton
-                  name={icons.DOWNLOAD}
-                  kind={grabError ? kinds.DANGER : kinds.DEFAULT}
-                  isSpinning={isGrabbing}
-                  onPress={handleGrabPress}
+                  title={translate('RemoveFromQueue')}
+                  aria-label={removeFromQueueLabel}
+                  name={icons.REMOVE}
+                  isSpinning={isRemoving}
+                  onPress={handleRemoveQueueItemPress}
                 />
-              ) : null}
-
-              <SpinnerIconButton
-                title={translate('RemoveFromQueue')}
-                name={icons.REMOVE}
-                isSpinning={isRemoving}
-                onPress={handleRemoveQueueItemPress}
-              />
+              </ActionGroup>
             </TableRowCell>
           );
         }

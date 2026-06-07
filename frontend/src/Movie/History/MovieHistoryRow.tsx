@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import HistoryDetailsModal from 'Activity/History/Details/HistoryDetailsModal';
 import HistoryEventTypeCell from 'Activity/History/HistoryEventTypeCell';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
 import RelativeDateCell from 'Components/Table/Cells/RelativeDateCell';
@@ -71,6 +72,10 @@ function MovieHistoryRow({
     setIsMarkAsFailedModalOpen(false);
   }, []);
 
+  const actionGroupLabel = `${translate('Actions')}: ${sourceTitle}`;
+  const detailsLabel = `${translate('Details')}: ${sourceTitle}`;
+  const markAsFailedLabel = `${translate('MarkAsFailed')}: ${sourceTitle}`;
+
   return (
     <TableRow>
       <HistoryEventTypeCell eventType={eventType} data={data} />
@@ -96,20 +101,24 @@ function MovieHistoryRow({
       <RelativeDateCell date={date} includeSeconds={true} includeTime={true} />
 
       <TableRowCell className={styles.actions}>
-        <IconButton
-          name={icons.INFO}
-          title={translate('Details')}
-          onPress={handleDetailsPress}
-        />
-
-        {eventType === 'grabbed' ? (
+        <ActionGroup label={actionGroupLabel}>
           <IconButton
-            title={translate('MarkAsFailed')}
-            name={icons.REMOVE}
-            size={14}
-            onPress={handleMarkAsFailedPress}
+            name={icons.INFO}
+            title={translate('Details')}
+            aria-label={detailsLabel}
+            onPress={handleDetailsPress}
           />
-        ) : null}
+
+          {eventType === 'grabbed' ? (
+            <IconButton
+              title={translate('MarkAsFailed')}
+              aria-label={markAsFailedLabel}
+              name={icons.REMOVE}
+              size={14}
+              onPress={handleMarkAsFailedPress}
+            />
+          ) : null}
+        </ActionGroup>
       </TableRowCell>
 
       <ConfirmModal

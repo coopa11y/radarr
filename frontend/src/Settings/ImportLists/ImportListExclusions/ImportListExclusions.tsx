@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import AppState from 'App/State/AppState';
 import FieldSet from 'Components/FieldSet';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import SpinnerButton from 'Components/Link/SpinnerButton';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
@@ -267,10 +268,14 @@ function ImportListExclusions() {
               </TableRowCell>
 
               <TableRowCell>
-                <IconButton
-                  name={icons.ADD}
-                  onPress={setAddImportListExclusionModalOpen}
-                />
+                <ActionGroup label={translate('Actions')}>
+                  <IconButton
+                    name={icons.ADD}
+                    title={translate('AddImportListExclusion')}
+                    aria-label={translate('AddImportListExclusion')}
+                    onPress={setAddImportListExclusionModalOpen}
+                  />
+                </ActionGroup>
               </TableRowCell>
             </TableRow>
           </TableBody>

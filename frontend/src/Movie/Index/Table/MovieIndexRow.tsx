@@ -4,6 +4,7 @@ import { useSelect } from 'App/SelectContext';
 import { MOVIE_SEARCH, REFRESH_MOVIE } from 'Commands/commandNames';
 import Icon from 'Components/Icon';
 import ImdbRating from 'Components/ImdbRating';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import SpinnerIconButton from 'Components/Link/SpinnerIconButton';
 import MovieTagList from 'Components/MovieTagList';
@@ -448,11 +449,7 @@ function MovieIndexRow(props: MovieIndexRowProps) {
         if (name === 'actions') {
           return (
             <VirtualTableRowCell key={name} className={styles[name]}>
-              <div
-                className={styles.actionGroup}
-                role="toolbar"
-                aria-label={`${translate('Actions')}: ${title}`}
-              >
+              <ActionGroup label={`${translate('Actions')}: ${title}`}>
                 <span className={styles.externalLinks}>
                   <Tooltip
                     anchor={<Icon name={icons.EXTERNAL_LINK} size={12} />}
@@ -493,7 +490,7 @@ function MovieIndexRow(props: MovieIndexRowProps) {
                   aria-label={`${translate('EditMovie')}: ${title}`}
                   onPress={onEditMoviePress}
                 />
-              </div>
+              </ActionGroup>
             </VirtualTableRowCell>
           );
         }

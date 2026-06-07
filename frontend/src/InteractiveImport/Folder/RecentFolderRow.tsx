@@ -1,5 +1,6 @@
 import React, { SyntheticEvent, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import RelativeDateCell from 'Components/Table/Cells/RelativeDateCell';
 import TableRowCell from 'Components/Table/Cells/TableRowCell';
@@ -61,22 +62,30 @@ function RecentFolderRow({
       <RelativeDateCell date={lastUsed} />
 
       <TableRowCell className={styles.actions}>
-        <IconButton
-          title={
-            isFavorite
-              ? translate('FavoriteFolderRemove')
-              : translate('FavoriteFolderAdd')
-          }
-          kind={isFavorite ? 'danger' : 'default'}
-          name={isFavorite ? icons.HEART : icons.HEART_OUTLINE}
-          onPress={handleFavoritePress}
-        />
+        <ActionGroup label={`${translate('Actions')}: ${folder}`}>
+          <IconButton
+            title={
+              isFavorite
+                ? translate('FavoriteFolderRemove')
+                : translate('FavoriteFolderAdd')
+            }
+            aria-label={`${
+              isFavorite
+                ? translate('FavoriteFolderRemove')
+                : translate('FavoriteFolderAdd')
+            }: ${folder}`}
+            kind={isFavorite ? 'danger' : 'default'}
+            name={isFavorite ? icons.HEART : icons.HEART_OUTLINE}
+            onPress={handleFavoritePress}
+          />
 
-        <IconButton
-          title={translate('Remove')}
-          name={icons.REMOVE}
-          onPress={handleRemovePress}
-        />
+          <IconButton
+            title={translate('Remove')}
+            aria-label={`${translate('Remove')}: ${folder}`}
+            name={icons.REMOVE}
+            onPress={handleRemovePress}
+          />
+        </ActionGroup>
       </TableRowCell>
     </TableRowButton>
   );

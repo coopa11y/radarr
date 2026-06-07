@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MOVIE_SEARCH, REFRESH_MOVIE } from 'Commands/commandNames';
 import Icon from 'Components/Icon';
 import ImdbRating from 'Components/ImdbRating';
-import Label from 'Components/Label';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import Link from 'Components/Link/Link';
 import SpinnerIconButton from 'Components/Link/SpinnerIconButton';
@@ -157,10 +157,9 @@ function MovieIndexPoster(props: MovieIndexPosterProps) {
           <MovieIndexPosterSelect movieId={movieId} titleSlug={titleSlug} />
         ) : null}
 
-        <Label
+        <ActionGroup
           className={styles.controls}
-          role="toolbar"
-          aria-label={`${translate('Actions')}: ${title}`}
+          label={`${translate('Actions')}: ${title}`}
         >
           <SpinnerIconButton
             name={icons.REFRESH}
@@ -202,7 +201,7 @@ function MovieIndexPoster(props: MovieIndexPosterProps) {
               }
             />
           </span>
-        </Label>
+        </ActionGroup>
 
         {status === 'deleted' ? (
           <div className={styles.deleted} title={translate('Deleted')} />

@@ -1,5 +1,6 @@
 import React, { SyntheticEvent, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import TableRowCell from 'Components/Table/Cells/TableRowCell';
 import TableRowButton from 'Components/Table/TableRowButton';
@@ -34,12 +35,15 @@ function FavoriteFolderRow({ folder, onPress }: FavoriteFolderRowProps) {
       <TableRowCell>{folder}</TableRowCell>
 
       <TableRowCell className={styles.actions}>
-        <IconButton
-          title={translate('FavoriteFolderRemove')}
-          kind="danger"
-          name={icons.HEART}
-          onPress={handleRemoveFavoritePress}
-        />
+        <ActionGroup label={`${translate('Actions')}: ${folder}`}>
+          <IconButton
+            title={translate('FavoriteFolderRemove')}
+            aria-label={`${translate('FavoriteFolderRemove')}: ${folder}`}
+            kind="danger"
+            name={icons.HEART}
+            onPress={handleRemoveFavoritePress}
+          />
+        </ActionGroup>
       </TableRowCell>
     </TableRowButton>
   );

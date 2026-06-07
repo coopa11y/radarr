@@ -4,6 +4,7 @@ import AppState from 'App/State/AppState';
 import Alert from 'Components/Alert';
 import FieldSet from 'Components/FieldSet';
 import Icon, { IconKind } from 'Components/Icon';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import SpinnerIconButton from 'Components/Link/SpinnerIconButton';
 import LoadingIndicator from 'Components/Loading/LoadingIndicator';
@@ -123,34 +124,47 @@ function Health() {
 
                     <TableRowCell>{item.message}</TableRowCell>
 
-                    <TableRowCell>
-                      <IconButton
-                        name={icons.WIKI}
-                        to={item.wikiUrl}
-                        title={translate('ReadTheWikiForMoreInformation')}
-                      />
-
-                      <HealthItemLink source={source} />
-
-                      {source === 'IndexerStatusCheck' ||
-                      source === 'IndexerLongTermStatusCheck' ? (
-                        <SpinnerIconButton
-                          name={icons.TEST}
-                          title={translate('TestAll')}
-                          isSpinning={isTestingAllIndexers}
-                          onPress={handleTestAllIndexersPress}
+                    <TableRowCell className={styles.actions}>
+                      <ActionGroup
+                        label={`${translate('Actions')}: ${item.message}`}
+                      >
+                        <IconButton
+                          name={icons.WIKI}
+                          to={item.wikiUrl}
+                          title={translate('ReadTheWikiForMoreInformation')}
+                          aria-label={`${translate(
+                            'ReadTheWikiForMoreInformation'
+                          )}: ${item.message}`}
                         />
-                      ) : null}
 
-                      {source === 'DownloadClientCheck' ||
-                      source === 'DownloadClientStatusCheck' ? (
-                        <SpinnerIconButton
-                          name={icons.TEST}
-                          title={translate('TestAll')}
-                          isSpinning={isTestingAllDownloadClients}
-                          onPress={handleTestAllDownloadClientsPress}
-                        />
-                      ) : null}
+                        <HealthItemLink source={source} label={item.message} />
+
+                        {source === 'IndexerStatusCheck' ||
+                        source === 'IndexerLongTermStatusCheck' ? (
+                          <SpinnerIconButton
+                            name={icons.TEST}
+                            title={translate('TestAll')}
+                            aria-label={`${translate('TestAll')}: ${
+                              item.message
+                            }`}
+                            isSpinning={isTestingAllIndexers}
+                            onPress={handleTestAllIndexersPress}
+                          />
+                        ) : null}
+
+                        {source === 'DownloadClientCheck' ||
+                        source === 'DownloadClientStatusCheck' ? (
+                          <SpinnerIconButton
+                            name={icons.TEST}
+                            title={translate('TestAll')}
+                            aria-label={`${translate('TestAll')}: ${
+                              item.message
+                            }`}
+                            isSpinning={isTestingAllDownloadClients}
+                            onPress={handleTestAllDownloadClientsPress}
+                          />
+                        ) : null}
+                      </ActionGroup>
                     </TableRowCell>
                   </TableRow>
                 );

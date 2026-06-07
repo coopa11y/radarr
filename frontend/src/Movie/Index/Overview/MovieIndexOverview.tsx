@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import TextTruncate from 'react-text-truncate';
 import { MOVIE_SEARCH, REFRESH_MOVIE } from 'Commands/commandNames';
 import Icon from 'Components/Icon';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import Link from 'Components/Link/Link';
 import SpinnerIconButton from 'Components/Link/SpinnerIconButton';
@@ -188,10 +189,9 @@ function MovieIndexOverview(props: MovieIndexOverviewProps) {
               {title}
             </Link>
 
-            <div
+            <ActionGroup
               className={styles.actions}
-              role="toolbar"
-              aria-label={`${translate('Actions')}: ${title}`}
+              label={`${translate('Actions')}: ${title}`}
             >
               <span className={styles.externalLinks}>
                 <Popover
@@ -233,7 +233,7 @@ function MovieIndexOverview(props: MovieIndexOverviewProps) {
                 aria-label={`${translate('EditMovie')}: ${title}`}
                 onPress={onEditMoviePress}
               />
-            </div>
+            </ActionGroup>
           </div>
 
           <div className={styles.details}>

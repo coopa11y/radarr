@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MOVIE_SEARCH } from 'Commands/commandNames';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import SpinnerIconButton from 'Components/Link/SpinnerIconButton';
 import TableRowCell from 'Components/Table/Cells/TableRowCell';
@@ -55,11 +56,7 @@ function MovieSearchCell({ movieId, movieTitle }: MovieSearchCellProps) {
 
   return (
     <TableRowCell className={styles.movieSearchCell}>
-      <div
-        className={styles.movieSearchActions}
-        role="toolbar"
-        aria-label={searchActionsLabel}
-      >
+      <ActionGroup label={searchActionsLabel}>
         <SpinnerIconButton
           name={icons.SEARCH}
           isSpinning={isSearching}
@@ -74,7 +71,7 @@ function MovieSearchCell({ movieId, movieTitle }: MovieSearchCellProps) {
           aria-label={interactiveSearchLabel}
           onPress={setInteractiveSearchModalOpen}
         />
-      </div>
+      </ActionGroup>
 
       <MovieInteractiveSearchModal
         isOpen={isInteractiveSearchModalOpen}

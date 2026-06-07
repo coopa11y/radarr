@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
 import TableRowCell from 'Components/Table/Cells/TableRowCell';
@@ -54,10 +55,14 @@ function ImportListExclusionRow(props: ImportListExclusionRowProps) {
       <TableRowCell>{movieYear}</TableRowCell>
 
       <TableRowCell className={styles.actions}>
-        <IconButton
-          name={icons.EDIT}
-          onPress={setEditImportListExclusionModalOpen}
-        />
+        <ActionGroup label={`${translate('Actions')}: ${movieTitle}`}>
+          <IconButton
+            name={icons.EDIT}
+            title={translate('Edit')}
+            aria-label={`${translate('Edit')}: ${movieTitle}`}
+            onPress={setEditImportListExclusionModalOpen}
+          />
+        </ActionGroup>
       </TableRowCell>
 
       <EditImportListExclusionModal

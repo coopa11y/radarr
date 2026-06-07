@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Label from 'Components/Label';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import Link from 'Components/Link/Link';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
@@ -72,11 +73,14 @@ function RootFolderRow(props: RootFolderRowProps) {
       </TableRowCell>
 
       <TableRowCell className={styles.actions}>
-        <IconButton
-          title={translate('RemoveRootFolder')}
-          name={icons.REMOVE}
-          onPress={onDeletePress}
-        />
+        <ActionGroup label={`${translate('Actions')}: ${path}`}>
+          <IconButton
+            title={translate('RemoveRootFolder')}
+            aria-label={`${translate('RemoveRootFolder')}: ${path}`}
+            name={icons.REMOVE}
+            onPress={onDeletePress}
+          />
+        </ActionGroup>
       </TableRowCell>
 
       <ConfirmModal

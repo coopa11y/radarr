@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import RelativeDateCell from 'Components/Table/Cells/RelativeDateCell';
 import TableRowCell from 'Components/Table/Cells/TableRowCell';
@@ -205,11 +206,14 @@ function HistoryRow(props: HistoryRowProps) {
         if (name === 'details') {
           return (
             <TableRowCell key={name} className={styles.details}>
-              <IconButton
-                name={icons.INFO}
-                title={translate('Details')}
-                onPress={handleDetailsPress}
-              />
+              <ActionGroup label={`${translate('Actions')}: ${sourceTitle}`}>
+                <IconButton
+                  name={icons.INFO}
+                  title={translate('Details')}
+                  aria-label={`${translate('Details')}: ${sourceTitle}`}
+                  onPress={handleDetailsPress}
+                />
+              </ActionGroup>
             </TableRowCell>
           );
         }

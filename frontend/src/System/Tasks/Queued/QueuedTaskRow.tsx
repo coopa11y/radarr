@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CommandBody } from 'Commands/Command';
 import Icon, { IconProps } from 'Components/Icon';
+import ActionGroup from 'Components/Link/ActionGroup';
 import IconButton from 'Components/Link/IconButton';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
 import TableRowCell from 'Components/Table/Cells/TableRowCell';
@@ -218,11 +219,14 @@ export default function QueuedTaskRow(props: QueuedTaskRowProps) {
 
       <TableRowCell className={styles.actions}>
         {status === 'queued' && (
-          <IconButton
-            title={translate('RemovedFromTaskQueue')}
-            name={icons.REMOVE}
-            onPress={openCancelConfirmModal}
-          />
+          <ActionGroup label={`${translate('Actions')}: ${commandName}`}>
+            <IconButton
+              title={translate('Cancel')}
+              aria-label={`${translate('Cancel')}: ${commandName}`}
+              name={icons.REMOVE}
+              onPress={openCancelConfirmModal}
+            />
+          </ActionGroup>
         )}
       </TableRowCell>
 

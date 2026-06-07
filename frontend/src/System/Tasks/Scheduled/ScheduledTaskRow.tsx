@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ActionGroup from 'Components/Link/ActionGroup';
 import SpinnerIconButton from 'Components/Link/SpinnerIconButton';
 import TableRowCell from 'Components/Table/Cells/TableRowCell';
 import TableRow from 'Components/Table/TableRow';
@@ -14,6 +15,7 @@ import { isCommandExecuting } from 'Utilities/Command';
 import formatDate from 'Utilities/Date/formatDate';
 import formatDateTime from 'Utilities/Date/formatDateTime';
 import formatTimeSpan from 'Utilities/Date/formatTimeSpan';
+import translate from 'Utilities/String/translate';
 import styles from './ScheduledTaskRow.css';
 
 interface ScheduledTaskRowProps {
@@ -156,12 +158,16 @@ function ScheduledTaskRow(props: ScheduledTaskRowProps) {
       ) : null}
 
       <TableRowCell className={styles.actions}>
-        <SpinnerIconButton
-          name={icons.REFRESH}
-          spinningName={icons.REFRESH}
-          isSpinning={isExecuting}
-          onPress={handleExecutePress}
-        />
+        <ActionGroup label={`${translate('Actions')}: ${name}`}>
+          <SpinnerIconButton
+            name={icons.REFRESH}
+            spinningName={icons.REFRESH}
+            title={translate('Execute')}
+            aria-label={`${translate('Execute')}: ${name}`}
+            isSpinning={isExecuting}
+            onPress={handleExecutePress}
+          />
+        </ActionGroup>
       </TableRowCell>
     </TableRow>
   );
