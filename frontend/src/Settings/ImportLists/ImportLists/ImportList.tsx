@@ -20,7 +20,11 @@ interface ImportListProps {
   enableAuto: boolean;
   tags: number[];
   minRefreshInterval: string;
+  isTestDisabled: boolean;
+  isTesting: boolean;
   onCloneImportListPress: (id: number) => void;
+  onTestImportListPress: (id: number) => void;
+  testError?: unknown;
 }
 
 function ImportList({
@@ -30,7 +34,11 @@ function ImportList({
   enableAuto,
   tags,
   minRefreshInterval,
+  isTestDisabled,
+  isTesting,
   onCloneImportListPress,
+  onTestImportListPress,
+  testError,
 }: ImportListProps) {
   const dispatch = useDispatch();
   const tagList = useTags();
@@ -66,6 +74,10 @@ function ImportList({
     onCloneImportListPress(id);
   }, [id, onCloneImportListPress]);
 
+  const handleTestImportListPress = useCallback(() => {
+    onTestImportListPress(id);
+  }, [id, onTestImportListPress]);
+
   return (
     <Card
       className={styles.list}
@@ -79,13 +91,27 @@ function ImportList({
       <div className={styles.nameContainer}>
         <div className={styles.name}>{name}</div>
 
-        <IconButton
-          className={styles.cloneButton}
-          title={translate('CloneImportList')}
-          context={name}
-          name={icons.CLONE}
-          onPress={handleCloneImportListPress}
-        />
+        <div className={styles.actionButtons}>
+          <IconButton
+            className={styles.actionButton}
+            title={translate('Test')}
+            context={name}
+            name={icons.TEST}
+            isSpinning={isTesting}
+            isDisabled={isTestDisabled}
+            announceCompletion={true}
+            error={testError}
+            onPress={handleTestImportListPress}
+          />
+
+          <IconButton
+            className={styles.actionButton}
+            title={translate('CloneImportList')}
+            context={name}
+            name={icons.CLONE}
+            onPress={handleCloneImportListPress}
+          />
+        </div>
       </div>
 
       <div className={styles.enabled}>

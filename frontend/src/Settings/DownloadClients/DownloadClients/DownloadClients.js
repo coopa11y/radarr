@@ -21,7 +21,8 @@ class DownloadClients extends Component {
 
     this.state = {
       isAddDownloadClientModalOpen: false,
-      isEditDownloadClientModalOpen: false
+      isEditDownloadClientModalOpen: false,
+      testingDownloadClientId: null
     };
   }
 
@@ -43,20 +44,28 @@ class DownloadClients extends Component {
     this.setState({ isEditDownloadClientModalOpen: false });
   };
 
+  onTestDownloadClientPress = (id) => {
+    this.setState({ testingDownloadClientId: id });
+    this.props.onTestDownloadClientPress(id);
+  };
+
   //
   // Render
 
   render() {
     const {
       items,
+      isTesting,
       onConfirmDeleteDownloadClient,
+      saveError,
       tagList,
       ...otherProps
     } = this.props;
 
     const {
       isAddDownloadClientModalOpen,
-      isEditDownloadClientModalOpen
+      isEditDownloadClientModalOpen,
+      testingDownloadClientId
     } = this.state;
 
     return (
@@ -72,8 +81,12 @@ class DownloadClients extends Component {
                   <DownloadClient
                     key={item.id}
                     {...item}
+                    isTesting={testingDownloadClientId === item.id && isTesting}
+                    isTestDisabled={testingDownloadClientId !== item.id && isTesting}
+                    testError={testingDownloadClientId === item.id ? saveError : undefined}
                     tagList={tagList}
                     onConfirmDeleteDownloadClient={onConfirmDeleteDownloadClient}
+                    onTestDownloadClientPress={this.onTestDownloadClientPress}
                   />
                 );
               })
@@ -109,10 +122,13 @@ class DownloadClients extends Component {
 
 DownloadClients.propTypes = {
   isFetching: PropTypes.bool.isRequired,
+  isTesting: PropTypes.bool.isRequired,
   error: PropTypes.object,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  saveError: PropTypes.object,
   tagList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onConfirmDeleteDownloadClient: PropTypes.func.isRequired
+  onConfirmDeleteDownloadClient: PropTypes.func.isRequired,
+  onTestDownloadClientPress: PropTypes.func.isRequired
 };
 
 export default DownloadClients;

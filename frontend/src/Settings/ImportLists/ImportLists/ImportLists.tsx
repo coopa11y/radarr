@@ -10,6 +10,7 @@ import { fetchRootFolders } from 'Store/Actions/rootFolderActions';
 import {
   cloneImportList,
   fetchImportLists,
+  testImportList,
 } from 'Store/Actions/settingsActions';
 import createSortedSectionSelector from 'Store/Selectors/createSortedSectionSelector';
 import ImportListModel from 'typings/ImportList';
@@ -23,7 +24,14 @@ import styles from './ImportLists.css';
 function ImportLists() {
   const dispatch = useDispatch();
 
-  const { isFetching, isPopulated, items, error } = useSelector(
+  const {
+    isFetching,
+    isPopulated,
+    isTesting = false,
+    items,
+    error,
+    saveError,
+  } = useSelector(
     createSortedSectionSelector<ImportListModel, ImportListAppState>(
       'settings.importLists',
       sortByProp('name')
@@ -34,6 +42,9 @@ function ImportLists() {
     useState(false);
   const [isEditImportListModalOpen, setIsEditImportListModalOpen] =
     useState(false);
+  const [testingImportListId, setTestingImportListId] = useState<number | null>(
+    null
+  );
 
   const handleAddImportListPress = useCallback(() => {
     setIsAddImportListModalOpen(true);
@@ -60,6 +71,14 @@ function ImportLists() {
     [dispatch]
   );
 
+  const handleTestImportListPress = useCallback(
+    (id: number) => {
+      setTestingImportListId(id);
+      dispatch(testImportList({ id }));
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
     dispatch(fetchImportLists());
     dispatch(fetchRootFolders());
@@ -79,7 +98,13 @@ function ImportLists() {
               <ImportList
                 key={item.id}
                 {...item}
+                isTesting={testingImportListId === item.id && isTesting}
+                isTestDisabled={testingImportListId !== item.id && isTesting}
+                testError={
+                  testingImportListId === item.id ? saveError : undefined
+                }
                 onCloneImportListPress={handleCloneImportListPress}
+                onTestImportListPress={handleTestImportListPress}
               />
             );
           })}

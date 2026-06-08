@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { deleteNotification, fetchNotifications } from 'Store/Actions/settingsActions';
+import { deleteNotification, fetchNotifications, testNotification } from 'Store/Actions/settingsActions';
 import createSortedSectionSelector from 'Store/Selectors/createSortedSectionSelector';
 import createTagsSelector from 'Store/Selectors/createTagsSelector';
 import sortByProp from 'Utilities/Array/sortByProp';
@@ -23,7 +23,8 @@ function createMapStateToProps() {
 
 const mapDispatchToProps = {
   fetchNotifications,
-  deleteNotification
+  deleteNotification,
+  testNotification
 };
 
 class NotificationsConnector extends Component {
@@ -42,6 +43,10 @@ class NotificationsConnector extends Component {
     this.props.deleteNotification({ id });
   };
 
+  onTestNotificationPress = (id) => {
+    this.props.testNotification({ id });
+  };
+
   //
   // Render
 
@@ -50,6 +55,7 @@ class NotificationsConnector extends Component {
       <Notifications
         {...this.props}
         onConfirmDeleteNotification={this.onConfirmDeleteNotification}
+        onTestNotificationPress={this.onTestNotificationPress}
       />
     );
   }
@@ -57,7 +63,8 @@ class NotificationsConnector extends Component {
 
 NotificationsConnector.propTypes = {
   fetchNotifications: PropTypes.func.isRequired,
-  deleteNotification: PropTypes.func.isRequired
+  deleteNotification: PropTypes.func.isRequired,
+  testNotification: PropTypes.func.isRequired
 };
 
 export default connect(createMapStateToProps, mapDispatchToProps)(NotificationsConnector);

@@ -23,6 +23,9 @@ function ImportListSettings() {
   const isTestingAll = useSelector(
     (state: AppState) => state.settings.importLists.isTestingAll
   );
+  const testAllError = useSelector(
+    (state: AppState) => state.settings.importLists.saveError
+  );
 
   const saveOptions = useRef<() => void>();
 
@@ -72,6 +75,8 @@ function ImportListSettings() {
               label={translate('TestAllLists')}
               iconName={icons.TEST}
               isSpinning={isTestingAll}
+              announceCompletion={true}
+              error={testAllError}
               onPress={handleTestAllIndexersPress}
             />
 

@@ -21,7 +21,8 @@ class Notifications extends Component {
 
     this.state = {
       isAddNotificationModalOpen: false,
-      isEditNotificationModalOpen: false
+      isEditNotificationModalOpen: false,
+      testingNotificationId: null
     };
   }
 
@@ -43,6 +44,11 @@ class Notifications extends Component {
     this.setState({ isEditNotificationModalOpen: false });
   };
 
+  onTestNotificationPress = (id) => {
+    this.setState({ testingNotificationId: id });
+    this.props.onTestNotificationPress(id);
+  };
+
   //
   // Render
 
@@ -51,12 +57,19 @@ class Notifications extends Component {
       items,
       tagList,
       onConfirmDeleteNotification,
+      onTestNotificationPress,
       ...otherProps
     } = this.props;
 
     const {
+      isTesting = false,
+      saveError
+    } = otherProps;
+
+    const {
       isAddNotificationModalOpen,
-      isEditNotificationModalOpen
+      isEditNotificationModalOpen,
+      testingNotificationId
     } = this.state;
 
     return (
@@ -73,7 +86,11 @@ class Notifications extends Component {
                     key={item.id}
                     {...item}
                     tagList={tagList}
+                    isTesting={testingNotificationId === item.id && isTesting}
+                    isTestDisabled={testingNotificationId !== item.id && isTesting}
+                    testError={testingNotificationId === item.id ? saveError : undefined}
                     onConfirmDeleteNotification={onConfirmDeleteNotification}
+                    onTestNotificationPress={this.onTestNotificationPress}
                   />
                 );
               })
@@ -112,7 +129,8 @@ Notifications.propTypes = {
   error: PropTypes.object,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   tagList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onConfirmDeleteNotification: PropTypes.func.isRequired
+  onConfirmDeleteNotification: PropTypes.func.isRequired,
+  onTestNotificationPress: PropTypes.func.isRequired
 };
 
 export default Notifications;

@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Card from 'Components/Card';
 import Label from 'Components/Label';
+import IconButton from 'Components/Link/IconButton';
 import ConfirmModal from 'Components/Modal/ConfirmModal';
 import TagList from 'Components/TagList';
-import { kinds } from 'Helpers/Props';
+import { icons, kinds } from 'Helpers/Props';
 import translate from 'Utilities/String/translate';
 import EditNotificationModalConnector from './EditNotificationModalConnector';
 import styles from './Notification.css';
@@ -49,6 +50,10 @@ class Notification extends Component {
     this.props.onConfirmDeleteNotification(this.props.id);
   };
 
+  onTestNotificationPress = () => {
+    this.props.onTestNotificationPress(this.props.id);
+  };
+
   //
   // Render
 
@@ -81,7 +86,10 @@ class Notification extends Component {
       supportsOnApplicationUpdate,
       supportsOnManualInteractionRequired,
       tags,
-      tagList
+      tagList,
+      isTestDisabled,
+      isTesting,
+      testError
     } = this.props;
 
     return (
@@ -90,8 +98,25 @@ class Notification extends Component {
         overlayContent={true}
         onPress={this.onEditNotificationPress}
       >
-        <div className={styles.name}>
-          {name}
+        <div className={styles.nameContainer}>
+          <div className={styles.name}>
+            {name}
+          </div>
+
+          <div className={styles.actionButtons}>
+            <IconButton
+              className={styles.actionButton}
+              title={translate('Test')}
+              context={name}
+              name={icons.TEST}
+              kind={kinds.DEFAULT}
+              isSpinning={isTesting}
+              isDisabled={isTestDisabled}
+              announceCompletion={true}
+              error={testError}
+              onPress={this.onTestNotificationPress}
+            />
+          </div>
         </div>
 
         {
@@ -256,7 +281,11 @@ Notification.propTypes = {
   supportsOnManualInteractionRequired: PropTypes.bool.isRequired,
   tags: PropTypes.arrayOf(PropTypes.number).isRequired,
   tagList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onConfirmDeleteNotification: PropTypes.func.isRequired
+  isTestDisabled: PropTypes.bool.isRequired,
+  isTesting: PropTypes.bool.isRequired,
+  testError: PropTypes.object,
+  onConfirmDeleteNotification: PropTypes.func.isRequired,
+  onTestNotificationPress: PropTypes.func.isRequired
 };
 
 export default Notification;

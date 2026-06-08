@@ -15,7 +15,11 @@ import styles from './Indexer.css';
 
 interface IndexerProps extends IndexerModel {
   showPriority: boolean;
+  isTestDisabled: boolean;
+  isTesting: boolean;
   onCloneIndexerPress: (id: number) => void;
+  onTestIndexerPress: (id: number) => void;
+  testError?: unknown;
 }
 
 function Indexer({
@@ -29,7 +33,11 @@ function Indexer({
   supportsSearch,
   priority,
   showPriority,
+  isTestDisabled,
+  isTesting,
   onCloneIndexerPress,
+  onTestIndexerPress,
+  testError,
 }: IndexerProps) {
   const dispatch = useDispatch();
   const tagList = useSelector(createTagsSelector());
@@ -63,6 +71,10 @@ function Indexer({
     onCloneIndexerPress(id);
   }, [id, onCloneIndexerPress]);
 
+  const handleTestIndexerPress = useCallback(() => {
+    onTestIndexerPress(id);
+  }, [id, onTestIndexerPress]);
+
   return (
     <Card
       className={styles.indexer}
@@ -76,13 +88,27 @@ function Indexer({
       <div className={styles.nameContainer}>
         <div className={styles.name}>{name}</div>
 
-        <IconButton
-          className={styles.cloneButton}
-          title={translate('CloneIndexer')}
-          context={name}
-          name={icons.CLONE}
-          onPress={handleCloneIndexerPress}
-        />
+        <div className={styles.actionButtons}>
+          <IconButton
+            className={styles.actionButton}
+            title={translate('Test')}
+            context={name}
+            name={icons.TEST}
+            isSpinning={isTesting}
+            isDisabled={isTestDisabled}
+            announceCompletion={true}
+            error={testError}
+            onPress={handleTestIndexerPress}
+          />
+
+          <IconButton
+            className={styles.actionButton}
+            title={translate('CloneIndexer')}
+            context={name}
+            name={icons.CLONE}
+            onPress={handleCloneIndexerPress}
+          />
+        </div>
       </div>
 
       <div className={styles.enabled}>

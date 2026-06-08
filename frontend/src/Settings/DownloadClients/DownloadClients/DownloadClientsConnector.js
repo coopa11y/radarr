@@ -2,7 +2,11 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { deleteDownloadClient, fetchDownloadClients } from 'Store/Actions/settingsActions';
+import {
+  deleteDownloadClient,
+  fetchDownloadClients,
+  testDownloadClient
+} from 'Store/Actions/settingsActions';
 import createSortedSectionSelector from 'Store/Selectors/createSortedSectionSelector';
 import createTagsSelector from 'Store/Selectors/createTagsSelector';
 import sortByProp from 'Utilities/Array/sortByProp';
@@ -23,7 +27,8 @@ function createMapStateToProps() {
 
 const mapDispatchToProps = {
   fetchDownloadClients,
-  deleteDownloadClient
+  deleteDownloadClient,
+  testDownloadClient
 };
 
 class DownloadClientsConnector extends Component {
@@ -42,6 +47,10 @@ class DownloadClientsConnector extends Component {
     this.props.deleteDownloadClient({ id });
   };
 
+  onTestDownloadClientPress = (id) => {
+    this.props.testDownloadClient({ id });
+  };
+
   //
   // Render
 
@@ -50,6 +59,7 @@ class DownloadClientsConnector extends Component {
       <DownloadClients
         {...this.props}
         onConfirmDeleteDownloadClient={this.onConfirmDeleteDownloadClient}
+        onTestDownloadClientPress={this.onTestDownloadClientPress}
       />
     );
   }
@@ -57,7 +67,8 @@ class DownloadClientsConnector extends Component {
 
 DownloadClientsConnector.propTypes = {
   fetchDownloadClients: PropTypes.func.isRequired,
-  deleteDownloadClient: PropTypes.func.isRequired
+  deleteDownloadClient: PropTypes.func.isRequired,
+  testDownloadClient: PropTypes.func.isRequired
 };
 
 export default connect(createMapStateToProps, mapDispatchToProps)(DownloadClientsConnector);

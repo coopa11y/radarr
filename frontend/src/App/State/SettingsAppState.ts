@@ -51,6 +51,7 @@ export interface DownloadClientAppState
   extends AppSectionState<DownloadClient>,
     AppSectionDeleteState,
     AppSectionSaveState {
+  isTesting: boolean;
   isTestingAll: boolean;
 }
 
@@ -73,6 +74,7 @@ export interface ImportListAppState
     AppSectionDeleteState,
     AppSectionSaveState,
     AppSectionSchemaState<Presets<ImportList>> {
+  isTesting: boolean;
   isTestingAll: boolean;
 }
 
@@ -85,12 +87,16 @@ export interface IndexerAppState
     AppSectionDeleteState,
     AppSectionSaveState,
     AppSectionSchemaState<Presets<Indexer>> {
+  isTesting: boolean;
   isTestingAll: boolean;
 }
 
 export interface NotificationAppState
   extends AppSectionState<Notification>,
-    AppSectionDeleteState {}
+    AppSectionDeleteState,
+    AppSectionSaveState {
+  isTesting: boolean;
+}
 
 export interface QualityProfilesAppState
   extends AppSectionState<QualityProfile>,

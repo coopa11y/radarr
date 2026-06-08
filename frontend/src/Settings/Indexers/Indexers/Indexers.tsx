@@ -6,7 +6,11 @@ import FieldSet from 'Components/FieldSet';
 import Icon from 'Components/Icon';
 import PageSectionContent from 'Components/Page/PageSectionContent';
 import { icons } from 'Helpers/Props';
-import { cloneIndexer, fetchIndexers } from 'Store/Actions/settingsActions';
+import {
+  cloneIndexer,
+  fetchIndexers,
+  testIndexer,
+} from 'Store/Actions/settingsActions';
 import createSortedSectionSelector from 'Store/Selectors/createSortedSectionSelector';
 import IndexerModel from 'typings/Indexer';
 import sortByProp from 'Utilities/Array/sortByProp';
@@ -19,7 +23,14 @@ import styles from './Indexers.css';
 function Indexers() {
   const dispatch = useDispatch();
 
-  const { isFetching, isPopulated, items, error } = useSelector(
+  const {
+    isFetching,
+    isPopulated,
+    isTesting = false,
+    items,
+    error,
+    saveError,
+  } = useSelector(
     createSortedSectionSelector<IndexerModel, IndexerAppState>(
       'settings.indexers',
       sortByProp('name')
@@ -28,6 +39,7 @@ function Indexers() {
 
   const [isAddIndexerModalOpen, setIsAddIndexerModalOpen] = useState(false);
   const [isEditIndexerModalOpen, setIsEditIndexerModalOpen] = useState(false);
+  const [testingIndexerId, setTestingIndexerId] = useState<number | null>(null);
 
   const showPriority = items.some((index) => index.priority !== 25);
 
@@ -39,6 +51,14 @@ function Indexers() {
     (id: number) => {
       dispatch(cloneIndexer({ id }));
       setIsEditIndexerModalOpen(true);
+    },
+    [dispatch]
+  );
+
+  const handleTestIndexerPress = useCallback(
+    (id: number) => {
+      setTestingIndexerId(id);
+      dispatch(testIndexer({ id }));
     },
     [dispatch]
   );
@@ -75,7 +95,11 @@ function Indexers() {
                 key={item.id}
                 {...item}
                 showPriority={showPriority}
+                isTesting={testingIndexerId === item.id && isTesting}
+                isTestDisabled={testingIndexerId !== item.id && isTesting}
+                testError={testingIndexerId === item.id ? saveError : undefined}
                 onCloneIndexerPress={handleCloneIndexerPress}
+                onTestIndexerPress={handleTestIndexerPress}
               />
             );
           })}
