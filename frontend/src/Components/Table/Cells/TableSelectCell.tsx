@@ -7,6 +7,7 @@ import styles from './TableSelectCell.css';
 
 interface TableSelectCellProps extends Omit<TableRowCellProps, 'id'> {
   className?: string;
+  ariaLabel?: string;
   id: number | string;
   isSelected?: boolean;
   onSelectedChange: (options: SelectStateInputProps) => void;
@@ -14,6 +15,7 @@ interface TableSelectCellProps extends Omit<TableRowCellProps, 'id'> {
 
 function TableSelectCell({
   className = styles.selectCell,
+  ariaLabel = 'Select Row',
   id,
   isSelected = false,
   onSelectedChange,
@@ -48,6 +50,7 @@ function TableSelectCell({
       <CheckInput
         className={styles.input}
         name={id.toString()}
+        ariaLabel={ariaLabel}
         value={isSelected}
         {...otherProps}
         onChange={handleChange}
