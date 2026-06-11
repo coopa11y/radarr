@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import Icon, { IconKind } from 'Components/Icon';
 import Popover from 'Components/Tooltip/Popover';
 import { icons, kinds } from 'Helpers/Props';
@@ -10,6 +10,18 @@ import {
 } from 'typings/Queue';
 import translate from 'Utilities/String/translate';
 import styles from './QueueStatus.css';
+
+const screenReaderOnlyStyle: CSSProperties = {
+  position: 'absolute',
+  width: 1,
+  height: 1,
+  padding: 0,
+  margin: -1,
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  border: 0,
+};
 
 function getDetailedPopoverBody(statusMessages: StatusMessage[]) {
   return (
@@ -141,17 +153,20 @@ function QueueStatus(props: QueueStatusProps) {
   }
 
   return (
-    <Popover
-      anchor={<Icon name={iconName} kind={iconKind} />}
-      title={title}
-      body={
-        hasWarning || hasError
-          ? getDetailedPopoverBody(statusMessages)
-          : sourceTitle
-      }
-      position={position}
-      canFlip={canFlip}
-    />
+    <span aria-label={title}>
+      <span style={screenReaderOnlyStyle}>{title}</span>
+      <Popover
+        anchor={<Icon name={iconName} kind={iconKind} />}
+        title={title}
+        body={
+          hasWarning || hasError
+            ? getDetailedPopoverBody(statusMessages)
+            : sourceTitle
+        }
+        position={position}
+        canFlip={canFlip}
+      />
+    </span>
   );
 }
 

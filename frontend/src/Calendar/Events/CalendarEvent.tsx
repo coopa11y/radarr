@@ -110,9 +110,34 @@ function CalendarEvent({
     digitalRelease,
     physicalRelease,
   ]);
+  let statusLabel = translate('MovieIsNotMonitored');
+
+  if (queueItem || grabbed) {
+    statusLabel = translate('MovieIsDownloading');
+  } else if (hasFile) {
+    statusLabel = translate('MovieDownloaded');
+  } else if (isMonitored && isAvailable) {
+    statusLabel = translate('MovieMissingFromDisk');
+  } else if (isMonitored) {
+    statusLabel = translate('MovieIsNotAvailable');
+  }
+  const eventLabel = [
+    title,
+    moment(date).format('dddd, LL'),
+    eventTypes.length ? eventTypes.join(', ') : null,
+    certification,
+    statusLabel,
+    showCutoffUnmetIcon && !!movieFile && movieFile.qualityCutoffNotMet
+      ? translate('QualityCutoffNotMet')
+      : null,
+  ]
+    .filter(Boolean)
+    .join(', ');
 
   return (
     <div
+      role="listitem"
+      aria-label={eventLabel}
       className={classNames(
         styles.event,
         styles[statusStyle],
@@ -122,7 +147,9 @@ function CalendarEvent({
     >
       <Link
         className={styles.underlay}
-        aria-label={translate('MovieDetailsGoTo', { title })}
+        aria-label={`${eventLabel}. ${translate('MovieDetailsGoTo', {
+          title,
+        })}`}
         title={title}
         to={link}
       />

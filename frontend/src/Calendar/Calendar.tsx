@@ -151,7 +151,11 @@ function Calendar() {
       ) : null}
 
       {!error && isPopulated && view !== 'agenda' ? (
-        <div className={styles.calendarContent}>
+        <div
+          className={styles.calendarContent}
+          role="grid"
+          aria-label="Calendar"
+        >
           <CalendarHeader />
           <DaysOfWeek />
           <CalendarDays />

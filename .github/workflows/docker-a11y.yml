@@ -1,4 +1,4 @@
-name: Build Radarr A11y Docker Image
+name: Build a11y image
 
 on:
   workflow_dispatch:
@@ -9,9 +9,6 @@ on:
 permissions:
   contents: read
   packages: write
-
-env:
-  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/radarr-a11y
 
 jobs:
   build:
@@ -59,11 +56,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.IMAGE_NAME }}
+          images: ghcr.io/${{ github.repository_owner }}/radarr
           tags: |
-            type=raw,value=latest
-            type=ref,event=branch
-            type=sha,prefix=sha-
+            type=raw,value=nvda-a11y
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6

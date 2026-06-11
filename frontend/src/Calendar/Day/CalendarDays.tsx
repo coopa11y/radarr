@@ -112,6 +112,7 @@ function CalendarDays() {
   return (
     <div
       className={classNames(styles.days, styles[view as keyof typeof styles])}
+      role="rowgroup"
     >
       {dates.map((date) => {
         return (

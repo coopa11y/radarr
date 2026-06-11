@@ -40,6 +40,8 @@ function DayOfWeek(props: DayOfWeekProps) {
 
   return (
     <div
+      role="columnheader"
+      aria-label={momentDate.format('dddd')}
       className={classNames(
         styles.dayOfWeek,
         view === calendarViews.DAY && styles.isSingleDay,

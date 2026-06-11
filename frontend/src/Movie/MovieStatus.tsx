@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import QueueDetails from 'Activity/Queue/QueueDetails';
 import Icon from 'Components/Icon';
@@ -12,10 +12,37 @@ import translate from 'Utilities/String/translate';
 import MovieQuality from './MovieQuality';
 import styles from './MovieStatus.css';
 
+const screenReaderOnlyStyle: CSSProperties = {
+  position: 'absolute',
+  width: 1,
+  height: 1,
+  padding: 0,
+  margin: -1,
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  border: 0,
+};
+
 interface MovieStatusProps {
   movieId: number;
   movieEntity?: MovieEntity;
   movieFileId: number | undefined;
+}
+
+function StatusContent({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className={styles.center} aria-label={label}>
+      <span style={screenReaderOnlyStyle}>{label}</span>
+      {children}
+    </div>
+  );
 }
 
 function MovieStatus({ movieId, movieFileId }: MovieStatusProps) {
@@ -37,7 +64,7 @@ function MovieStatus({ movieId, movieFileId }: MovieStatusProps) {
     const progress = size ? 100 - (sizeleft / size) * 100 : 0;
 
     return (
-      <div className={styles.center}>
+      <StatusContent label={translate('MovieIsDownloading')}>
         <QueueDetails
           {...queueItem}
           progressBar={
@@ -48,18 +75,18 @@ function MovieStatus({ movieId, movieFileId }: MovieStatusProps) {
             />
           }
         />
-      </div>
+      </StatusContent>
     );
   }
 
   if (grabbed) {
     return (
-      <div className={styles.center}>
+      <StatusContent label={translate('MovieIsDownloading')}>
         <Icon
           name={icons.DOWNLOADING}
           title={translate('MovieIsDownloading')}
         />
-      </div>
+      </StatusContent>
     );
   }
 
@@ -68,41 +95,41 @@ function MovieStatus({ movieId, movieFileId }: MovieStatusProps) {
     const isCutoffNotMet = movieFile.qualityCutoffNotMet;
 
     return (
-      <div className={styles.center}>
+      <StatusContent label={translate('MovieDownloaded')}>
         <MovieQuality
           quality={quality}
           size={movieFile.size}
           isCutoffNotMet={isCutoffNotMet}
           title={translate('MovieDownloaded')}
         />
-      </div>
+      </StatusContent>
     );
   }
 
   if (!monitored) {
     return (
-      <div className={styles.center}>
+      <StatusContent label={translate('MovieIsNotMonitored')}>
         <Icon
           name={icons.UNMONITORED}
           kind={kinds.DISABLED}
           title={translate('MovieIsNotMonitored')}
         />
-      </div>
+      </StatusContent>
     );
   }
 
   if (isAvailable) {
     return (
-      <div className={styles.center}>
+      <StatusContent label={translate('MovieMissingFromDisk')}>
         <Icon name={icons.MISSING} title={translate('MovieMissingFromDisk')} />
-      </div>
+      </StatusContent>
     );
   }
 
   return (
-    <div className={styles.center}>
+    <StatusContent label={translate('MovieIsNotAvailable')}>
       <Icon name={icons.NOT_AIRED} title={translate('MovieIsNotAvailable')} />
-    </div>
+    </StatusContent>
   );
 }
 

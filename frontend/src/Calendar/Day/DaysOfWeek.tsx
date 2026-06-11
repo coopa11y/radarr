@@ -39,7 +39,7 @@ function DaysOfWeek() {
   }
 
   return (
-    <div className={styles.daysOfWeek}>
+    <div className={styles.daysOfWeek} role="row">
       {dates.map((date) => {
         return (
           <DayOfWeek

@@ -58,6 +58,9 @@ function CalendarDay({ date, isTodaysDate }: CalendarDayProps) {
   const events = useSelector(createCalendarEventsConnector(date));
 
   const ref = React.useRef<HTMLDivElement>(null);
+  const dayLabel = `${moment(date).format('dddd, LL')}, ${events.length} ${
+    events.length === 1 ? 'event' : 'events'
+  }`;
 
   React.useEffect(() => {
     if (isTodaysDate && view === calendarViews.MONTH && ref.current) {
@@ -68,6 +71,9 @@ function CalendarDay({ date, isTodaysDate }: CalendarDayProps) {
   return (
     <div
       ref={ref}
+      role="gridcell"
+      aria-label={dayLabel}
+      aria-current={isTodaysDate ? 'date' : undefined}
       className={classNames(
         styles.day,
         view === calendarViews.DAY && styles.isSingleDay
@@ -85,7 +91,7 @@ function CalendarDay({ date, isTodaysDate }: CalendarDayProps) {
           {moment(date).date()}
         </div>
       )}
-      <div>
+      <div role="list" aria-label={`Events for ${moment(date).format('LL')}`}>
         {events.map((event) => {
           return (
             <CalendarEvent key={event.id} {...event} date={date as string} />
